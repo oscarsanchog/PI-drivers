@@ -8,7 +8,7 @@ conn
   .sync({ force: boolean }, { alter: !boolean })
   .then(() => {
     server.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`)
+      console.log("Server listening on port", PORT)
     })
   })
   .catch((error) => console.error(error))
