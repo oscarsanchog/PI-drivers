@@ -2,14 +2,18 @@ const { Driver } = require("../db")
 
 module.exports = async (req, res) => {
     try {
-        let id = 1
         const { forename, surname, description, image, nationality, dob } = req.body
-      
-        if (!forename || !surname || !description || !image || !nationality || !dob)
+
+        
+        if (!forename || !surname || !description || !image || !nationality || !dob){
           return res.status(401).send("Faltan datos")
+        }
       
+      const formatedForename = forename.charAt(0).toUpperCase() + query.slice(1).toLowerCase() 
+      const formatedSurname = surname.charAt(0).toUpperCase() + query.slice(1).toLowerCase() 
+
         const newDriver = await Driver.findOrCreate({
-          where: { forename, surname, description, image, nationality, dob }
+          where: { formatedForename, formatedSurname, description, image, nationality, dob }
         })
       
         res.status(200).json(newDriver) 

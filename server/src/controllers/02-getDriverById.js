@@ -2,12 +2,14 @@ const axios = require("axios")
 const { Driver } = require("../db")
 const URL_API = require("../utils/url")
 
+//TODO #1 Tiene que incluir los datos del/los team/s del driver al que está asociado.
+
 module.exports = async (req, res) => {
   try {
     const { id } = req.params
-    const numberRegex = /^[0-9]+$/
+    const numberRegex = /^[0-9]+$/ // Verificador de números
 
-    if (numberRegex.test(id)) {
+    if (numberRegex.test(id)) { // Verifica que id sea número para hacer peticion api
       const apiDriversResponse = await axios(`${URL_API}/${id}`)
 
       if (apiDriversResponse.data.id) {
