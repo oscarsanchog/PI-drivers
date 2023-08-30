@@ -1,5 +1,6 @@
 const { Driver } = require("../db")
 const { Team } = require("../db")
+const { postTeams } = require('../controllers/05-getTeams')
 
 module.exports = async (req, res) => {
   try {
@@ -31,9 +32,13 @@ module.exports = async (req, res) => {
       unformattedSurname.charAt(0).toUpperCase() +
       unformattedSurname.slice(1).toLowerCase()
 
-    //TODO Necesito verificar si está en la base de datos los teams antes de crear un driver. Podría reautilizar alguna función de get teams
+    
 
-    const [newDriver, created] = await Driver.findOrCreate({
+    const dbTeams = await Team.findAll()
+
+    if (!dbTeams.length) await postTeams()
+
+    const [newDriver, created] = await Driver.findOrCreate({ //TODO Esto me repite drivers, pero no sé si está mal, porque qué pasa si el user quiere agregar drivers repetidos
       where: {
         forename,
         surname,
@@ -41,7 +46,6 @@ module.exports = async (req, res) => {
         image,
         nationality,
         dob,
-        
       },
     })
 
