@@ -1,5 +1,5 @@
 const axios = require("axios")
-const { Driver } = require("../db")
+const { Driver, Team } = require("../db")
 const URL_API = require("../utils/url")
 
 //TODO #1 Tiene que incluir los datos del/los team/s del driver al que está asociado.
@@ -20,7 +20,17 @@ module.exports = async (req, res) => {
       }
     }
 
-    const dbDriver = await Driver.findByPk(id)
+    const dbDriver = await Driver.findByPk(id, {
+      include: { // join
+        model: Team,
+        attributes: ['name'],
+        through: {
+          attributes: []
+        }
+      }
+    })
+
+
     if (dbDriver) {
         res.status(200).json(dbDriver)
     }

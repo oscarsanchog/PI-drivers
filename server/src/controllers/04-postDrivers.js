@@ -13,8 +13,6 @@ module.exports = async (req, res) => {
       teamId,
     } = req.body
 
-    
-
     if (
       !unformattedForename ||
       !unformattedSurname ||
@@ -33,6 +31,8 @@ module.exports = async (req, res) => {
       unformattedSurname.charAt(0).toUpperCase() +
       unformattedSurname.slice(1).toLowerCase()
 
+    //TODO Necesito verificar si está en la base de datos los teams antes de crear un driver. Podría reautilizar alguna función de get teams
+
     const [newDriver, created] = await Driver.findOrCreate({
       where: {
         forename,
@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
         image,
         nationality,
         dob,
-        team: teamId.toString(),
+        
       },
     })
 
