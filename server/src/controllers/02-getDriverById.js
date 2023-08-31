@@ -2,8 +2,6 @@ const axios = require("axios")
 const { Driver, Team } = require("../db")
 const URL_API = require("../utils/url")
 
-//TODO #1 Tiene que incluir los datos del/los team/s del driver al que está asociado.
-
 module.exports = async (req, res) => {
   try {
     const { id } = req.params

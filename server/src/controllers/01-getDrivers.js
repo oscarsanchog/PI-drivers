@@ -2,8 +2,6 @@ const axios = require("axios")
 const { Driver } = require("../db")
 const URL_API = require("../utils/url")
 
-//TODO #3 Si no tiene imagen, colocarle una por defecto
-
 module.exports = async (req, res) => {
   try {
     const dbDrivers = await Driver.findAll()
