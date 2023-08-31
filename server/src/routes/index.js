@@ -9,6 +9,7 @@ const { getTeams } = require('../controllers/05-getTeams')
 router.get('/name', getDriversByName)
 
 router.get('/teams', getTeams)
+
 router.get("/", getDrivers)
 
 router.get("/:id", getDriverById)

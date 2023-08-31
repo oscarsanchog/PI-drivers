@@ -11,7 +11,9 @@ module.exports = async (req, res) => {
       const apiDriversResponse = await axios(`${URL_API}/${id}`)
 
       if (apiDriversResponse.data.id) {
-        const { id, name, description, image, nationality, dob, teams } = apiDriversResponse.data
+        let { id, name, description, image, nationality, dob, teams } = apiDriversResponse.data
+        if(image.url === "") image.url = 'https://raw.githubusercontent.com/oscarsanchog/PI-drivers/main/server/src/assets/img/profileImage.png'
+        
         const apiDriver = { id, name, description, image, nationality, dob, teams }
 
         return res.status(200).json(apiDriver)

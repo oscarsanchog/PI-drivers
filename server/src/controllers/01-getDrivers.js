@@ -6,7 +6,11 @@ module.exports = async (req, res) => {
   try {
     const dbDrivers = await Driver.findAll()
 
-    const { data: apiDrivers } = await axios(URL_API)
+    let { data: apiDrivers } = await axios(URL_API)
+
+    apiDrivers.forEach(driver => {
+      if(driver.image.url === "") driver.image.url = 'https://raw.githubusercontent.com/oscarsanchog/PI-drivers/main/server/src/assets/img/profileImage.png'
+    })
 
     const allDrivers = [...dbDrivers, ...apiDrivers ]
 
