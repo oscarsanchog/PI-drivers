@@ -1,6 +1,10 @@
+import Card from '../Card/Card'
+
 const Cards = () => {
     return (
-        <p>Cards</p>
+        <div>
+            <Card/>
+        </div>
     )
 }
 
