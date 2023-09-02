@@ -9,20 +9,24 @@ module.exports = (sequelize) => {
       defaultValue: Sequelize.UUIDV4, // Genera un UUID aleatorio
       primaryKey: true,
    },
-    forename: {
+   name: {
+    type: DataTypes.JSONB,
+    allowNull: false,
+   },
+    /* forename: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     surname: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
+      allowNull: false, */
+    
     description: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     image: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSONB,
       
     },
     nationality: {

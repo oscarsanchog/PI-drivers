@@ -8,14 +8,15 @@ module.exports = async (req, res) => {
 
     let { data: apiDrivers } = await axios(URL_API)
 
-    apiDrivers.forEach(driver => {
-      if(driver.image.url === "") driver.image.url = 'https://raw.githubusercontent.com/oscarsanchog/PI-drivers/main/server/src/assets/img/profileImage.png'
+    apiDrivers.forEach((driver) => {
+      if (driver.image.url === "")
+        driver.image.url =
+          "https://raw.githubusercontent.com/oscarsanchog/PI-drivers/main/server/src/assets/img/profileImage.png"
     })
 
-    const allDrivers = [...dbDrivers, ...apiDrivers ]
+    const allDrivers = [...dbDrivers, ...apiDrivers]
 
     res.status(200).json(allDrivers)
-
   } catch (error) {
     res.status(500).json({ error: error.message })
   }

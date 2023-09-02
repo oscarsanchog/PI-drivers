@@ -22,7 +22,6 @@ const getTeams = async (req, res) => {
     }
 
     res.status(200).json(dbTeams)
-    
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
