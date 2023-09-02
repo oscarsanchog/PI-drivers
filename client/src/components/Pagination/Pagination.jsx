@@ -15,18 +15,16 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
 
   const onKeyDown = (event) => {
     if (event.key === "Enter") {
-      
       const requestedPage = +event.target.value
 
       if (requestedPage <= 1 || isNaN(requestedPage)) {
         setPage(1)
         setInput(1)
         return
-      }
-      else if (requestedPage > numberOfPages) {
-          setInput(numberOfPages)
-          setPage(numberOfPages)
-          return
+      } else if (requestedPage > numberOfPages) {
+        setInput(numberOfPages)
+        setPage(numberOfPages)
+        return
       }
       setPage(requestedPage)
     }
@@ -37,12 +35,14 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
   }
 
   const onClick = () => {
-    setInput('')
+    setInput("")
   }
 
   return (
     <div>
-      <button disabled={page <= 1} onClick={previousPage}>◀️</button>
+      <button disabled={page <= 1} onClick={previousPage}>
+        ◀️ 
+      </button>
       <input
         type="text"
         value={input}
@@ -52,7 +52,9 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
         onClick={onClick}
       />
       <span>of {numberOfPages}</span>
-      <button disabled={page >= 56} onClick={nextPage}>▶️</button>
+      <button disabled={page >= 56} onClick={nextPage}>
+        ▶️
+      </button>
     </div>
   )
 }

@@ -3,6 +3,7 @@ const { Driver } = require("../db")
 const URL_API = require("../utils/url")
 const { Op } = require("sequelize")
 
+//TODO Hacer que desde la api traiga con el método include. También hacer que busque pese a los acentos
 module.exports = async (req, res) => {
   try {
     const query = req.query.name

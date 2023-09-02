@@ -9,7 +9,7 @@ const postTeams = async () => {
     .filter((driver) => driver.teams) // filtra la propiedad teams del array que devuelve la API
     .map((obj) => obj.teams.split(",")) // filter  devuelve un obj con arr y a los strings dentro de los array los separo por cada ','
     .flat() // Uno los strings en un solo array
-    .forEach((team) => Team.findOrCreate({ where: { name: team } })) //por cada string del array (por cada equipo), creo un nuevo value en la tabla con tal equipo
+    .forEach((teamAPI) => Team.findOrCreate({ where: { name: teamAPI } })) //por cada string del array (por cada equipo), creo un nuevo value en la tabla con tal equipo
 }
 
 const getTeams = async (req, res) => {

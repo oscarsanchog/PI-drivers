@@ -1,5 +1,4 @@
-const { Driver } = require("../db")
-const { Team } = require("../db")
+const { Driver, Team } = require("../db")
 const { postTeams } = require("../controllers/05-getTeams")
 
 module.exports = async (req, res) => {

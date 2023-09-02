@@ -1,10 +1,18 @@
 const axios = require("axios")
-const { Driver } = require("../db")
+const { Driver, Team } = require("../db")
 const URL_API = require("../utils/url")
 
 module.exports = async (req, res) => {
   try {
-    const dbDrivers = await Driver.findAll()
+    const dbDrivers = await Driver.findAll({
+      include: {
+        model: Team,
+        attributes: ['name'],
+        through: {
+          attributes: [],
+        },
+      }
+    })
 
     let { data: apiDrivers } = await axios(URL_API)
 
