@@ -15,17 +15,18 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
 
   const onKeyDown = (event) => {
     if (event.key === "Enter") {
-      event.preventDefault()
-      console.log(+event.target.value)
+      
       const requestedPage = +event.target.value
 
-      if (
-        requestedPage < 1 ||
-        requestedPage > numberOfPages ||
-        isNaN(requestedPage)
-      ) {
+      if (requestedPage <= 1 || isNaN(requestedPage)) {
         setPage(1)
         setInput(1)
+        return
+      }
+      else if (requestedPage > numberOfPages) {
+          setInput(numberOfPages)
+          setPage(numberOfPages)
+          return
       }
       setPage(requestedPage)
     }

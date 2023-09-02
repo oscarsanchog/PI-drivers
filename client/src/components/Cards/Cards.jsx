@@ -6,7 +6,7 @@ const Cards = ({ drivers }) => {
   const [page, setPage] = useState(1)
   const [driversPerPage, setDriversPerPage] = useState(9) //! En realidad este podría ser solo una constante
 
-  const numberOfPages = Math.floor(drivers.length / driversPerPage)
+  const numberOfPages = Math.ceil(drivers.length / driversPerPage)
   console.log(numberOfPages);
 
   const firstOfThePage = (page - 1) * driversPerPage // La página -1 es porque page inicia en 1, y yo necesito el indice 0, que es el primero
@@ -14,6 +14,11 @@ const Cards = ({ drivers }) => {
 
   return (
     <section>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          numberOfPages={numberOfPages}
+        />
       <ul>
         {drivers
           .slice(firstOfThePage, lastOfThePage)
@@ -23,11 +28,6 @@ const Cards = ({ drivers }) => {
               )
             })}
       </ul>
-            <Pagination
-              page={page}
-              setPage={setPage}
-              numberOfPages={numberOfPages}
-            />
     </section>
   )
 }
