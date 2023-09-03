@@ -14,16 +14,16 @@ const Cards = ({ drivers }) => {
 
   return (
     <section>
-      <Pagination page={page} setPage={setPage} numberOfPages={numberOfPages} />
       <ul>
         {drivers
           .slice(firstOfThePage, lastOfThePage)
           .map(({ id, image, name, teams }) => {
             return (
               <Card key={id} id={id} image={image} name={name} teams={teams} />
-            )
-          })}
+              )
+            })}
       </ul>
+      <Pagination page={page} setPage={setPage} numberOfPages={numberOfPages} />
     </section>
   )
 }

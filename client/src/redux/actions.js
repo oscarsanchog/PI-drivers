@@ -1,10 +1,48 @@
-import { GET_DRIVERS } from "./action-types";
-import axios from 'axios'
-import { URL_SERVER } from "../utils/consts";
+import {
+  GET_DRIVERS,
+  GET_DETAIL,
+  CLEAN_DETAIL,
+  GET_DRIVERS_BY_NAME,
+  GET_DRIVER_BY_ID,
+  CLEAN_DRIVERS
+} from "./action-types"
 
-export const getDrivers =  () => {
-    return async (dispatch) => {
-        const { data } = await axios(URL_SERVER)
-        return dispatch({ type: GET_DRIVERS, payload: data })
-    }
+import axios from "axios"
+
+const URL_SERVER = "http://localhost:3001/drivers"
+
+export const getDrivers = () => {
+  return async (dispatch) => {
+    const { data } = await axios(URL_SERVER)
+    return dispatch({ type: GET_DRIVERS, payload: data })
+  }
+}
+
+export const getDetail = (id) => {
+  return async (dispatch) => {
+    const { data } = await axios(`${URL_SERVER}/${id}`)
+    return dispatch({ type: GET_DETAIL, payload: data })
+  }
+}
+
+export const cleanDetail = () => {
+  return { type: CLEAN_DETAIL }
+}
+
+export const getDriversByName = (name) => {
+  return async (dispatch) => {
+    const { data } = await axios(`${URL_SERVER}/name?name=${name}`)
+    return dispatch({ type: GET_DRIVERS_BY_NAME, payload: data })
+  }
+}
+
+export const getDriverById = (id) => {
+  return async (dispatch) => {
+    const { data } = await axios(`${URL_SERVER}/${id}`)
+    return dispatch({ type: GET_DRIVER_BY_ID, payload: data })
+  }
+}
+
+export const cleanDrivers = () => {
+    return { type: CLEAN_DRIVERS}
 }

@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom"
+import { teamsFormat } from "../../utils/teamsFormat"
 
-//TODO Mostrar teams de drivers de la db. Quizás es con for in
 const Card = ({ id, image, name, teams }) => {
-  const regex = /,(?!\s)/g 
   
   return (
     <li>
@@ -12,21 +11,13 @@ const Card = ({ id, image, name, teams }) => {
 
       <h2>
         Name:
-        {
           <Link to={`/detail/${id}`}
             > {name.forename} {name.surname}
           </Link>
-        }
       </h2>
       
         
-      <h2>Teams:{' '}
-        {
-          !isNaN(id)
-          ? teams.replace(regex, ', ') // Para separar 'team, team' cuando no tenga tal formato
-          : teams.map(team => team.name).join(', ') // Mapea en su prop name al array de los teams de los drivers de la db y luego los transforma en string para mostrarlos
-        }
-      </h2>
+      <h3>Teams: {teamsFormat(id, teams)} </h3>
     </li>
   )
 }

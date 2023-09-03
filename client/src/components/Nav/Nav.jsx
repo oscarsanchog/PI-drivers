@@ -1,6 +1,5 @@
 import SearchBar from "../SearchBar/SearchBar"
-import Random from "../Random/Random"
-import ClearSearch from "../ClearSearch/ClearSearch"
+
 import { Link } from "react-router-dom"
 
 const Nav = () => {
@@ -19,10 +18,6 @@ const Nav = () => {
       </button>
 
       <SearchBar />
-
-      <Random />
-
-      <ClearSearch />
     </nav>
   )
 }
