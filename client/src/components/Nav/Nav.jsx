@@ -10,7 +10,7 @@ const Nav = () => {
       </button>
 
       <button>
-        <Link to={"/form"}>Add a driver</Link>
+        <Link to={"/form"}>Create a driver</Link>
       </button>
 
       <button>
