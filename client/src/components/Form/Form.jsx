@@ -1,6 +1,13 @@
 const Form = () => {
     return (
-        <div>Form</div>
+        <section>
+            <form action="">
+                <div>
+                    <label htmlFor="">Nombre</label>
+                    <input type="text" />
+                </div>
+            </form>
+        </section>
     )
 }
 
