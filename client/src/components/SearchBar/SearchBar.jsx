@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { getDriversByName, getDriverById, getDrivers } from "../../redux/actions"
+import { getDriversByName, getDriverById, getDrivers, cleanDriversFiltered } from "../../redux/actions"
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
 import axios from "axios"
@@ -50,7 +50,7 @@ const SearchBar = () => {
   }
 
   const clearHandler = async () => {
-    dispatch(getDrivers())
+    dispatch(cleanDriversFiltered())
     setName("")
   }
 
