@@ -12,6 +12,7 @@ const Cards = () => {
   useEffect(() => {
     drivers.length === 0 && dispatch(getDrivers()) // Verifica si drivers tiene longitud 0 y llama a dispatch para obtener los datos
   }, [driversFiltered])
+  
 
   const [page, setPage] = useState(1)
 

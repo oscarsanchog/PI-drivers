@@ -6,9 +6,10 @@ const postTeams = async () => {
   const { data: apiDrivers } = await axios(URL_API)
 
   await apiDrivers // Necesita un await porque al final tiene una petición a la BD
-    .filter((driver) => driver.teams) // filtra la propiedad teams del array que devuelve la API
-    .map((obj) => obj.teams.split(",")) // filter  devuelve un obj con arr y a los strings dentro de los array los separo por cada ','
+    .filter((driver) => driver.teams) // filtra los drivers que sí tienen teams declarados (no es undefined)
+    .map((driver) => driver.teams.split(",")) // filter  devuelve un arr obj con obj (con los teams de los drivers) y a los strings dentro de los array los separo por cada ','
     .flat() // Uno los strings en un solo array
+    .map(teamString => teamString.trim()) // normalizo cada string del array para que no haya espacios ni adelante ni atras
     .forEach((teamAPI) => Team.findOrCreate({ where: { name: teamAPI } })) //por cada string del array (por cada equipo), creo un nuevo value en la tabla con tal equipo
 }
 
