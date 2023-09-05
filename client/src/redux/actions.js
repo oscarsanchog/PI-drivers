@@ -4,7 +4,8 @@ import {
   CLEAN_DETAIL,
   GET_DRIVERS_BY_NAME,
   GET_DRIVER_BY_ID,
-  CLEAN_DRIVERS
+  CLEAN_DRIVERS,
+  ORDER_BY_NAME
 } from "./action-types"
 
 import axios from "axios"
@@ -44,5 +45,10 @@ export const getDriverById = (id) => {
 }
 
 export const cleanDrivers = () => {
-    return { type: CLEAN_DRIVERS}
+    return { type: CLEAN_DRIVERS }
+}
+
+export const orderByName = (sort) => {
+  //console.log(sort);
+  return { type: ORDER_BY_NAME, payload: sort}
 }

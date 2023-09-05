@@ -10,7 +10,7 @@ import About from './components/About/About'
 
 const App = () => {
   const { pathname } = useLocation()
-  
+
   return (
     <div>
       {pathname !== '/' && <Nav/>}
@@ -18,7 +18,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage/>}/>
 
-        <Route path="/home" element={<Home/>}/> 
+        <Route path="/home" element={<Home />}/> 
 
         <Route path="/detail/:id" element={<Detail/>}/>
 

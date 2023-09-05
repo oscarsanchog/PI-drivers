@@ -4,12 +4,14 @@ import {
   CLEAN_DETAIL,
   GET_DRIVERS_BY_NAME,
   GET_DRIVER_BY_ID,
-  CLEAN_DRIVERS
+  CLEAN_DRIVERS,
+  ORDER_BY_NAME
 } from "./action-types"
 
 const initialState = {
   drivers: [],
   driverDetail: {},
+  driversFiltered: []
 }
 
 
@@ -53,6 +55,17 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         drivers: []
+      }
+
+    case ORDER_BY_NAME:
+      state.driversFiltered = [...state.drivers]
+
+      return {
+        ...state,
+        driversFiltered:
+          payload === 'A'
+            ? state.driversFiltered.sort((a, b) => a.name.forename.localeCompare(b.name.forename))
+            : state.driversFiltered.sort((a, b) => b.name.forename.localeCompare(a.name.forename))
       }
 
     default:

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { orderByName } from "../../redux/actions"
 import axios from 'axios'
 
 const Filters =  () => {
-
     const [teams, setTeams] = useState([])
+    const dispatch = useDispatch()
 
     async function getTeams() {
         const { data } = await axios('http://localhost:3001/drivers/teams')
@@ -14,12 +16,17 @@ const Filters =  () => {
         getTeams()
     }, [])
 
+    const orderByNameHandler = (event) => {
+        const sort = event.target.value
+        dispatch(orderByName(sort))
+    }
+    
     return (
         <div>
-            <select name="orderByName" id="" defaultValue='orderByName'>
+            <select defaultValue='orderByName' onChange={orderByNameHandler}>
                 <option value="orderByName" disabled='disabled'>Order by name</option>
-                <option value="A">Ascending</option>
-                <option value="D">Descending</option>
+                <option value="A">A to Z</option>
+                <option value="D">Z to A</option>
             </select>
 
             <select name="orderByDob" id="" defaultValue='orderByDob'>
