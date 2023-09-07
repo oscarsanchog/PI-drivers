@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getTeams, getDrivers } from "../../redux/actions"
-import axios from "axios"
 
 const Form = () => {
   const teams = useSelector((state) => state.teams)
@@ -28,7 +27,6 @@ const Form = () => {
   }, [dispatch, teams, drivers])
 
   const uniqueNationalities = new Set()
-
   const filteredNationalities = drivers.filter((driver) => {
     if (!uniqueNationalities.has(driver.nationality)) {
       uniqueNationalities.add(driver.nationality)
@@ -51,7 +49,7 @@ const Form = () => {
     return teams
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((team) => (
-        <option key={team.id} value={team.id} /* onChange={handleChange} */ /* value={team.name} */>
+        <option key={team.id} value={team.name}>
           {team.name}
         </option>
       ))
@@ -63,7 +61,7 @@ const Form = () => {
   
   const handleRemoveTeamButton = () => {
     count >= 2 && setCount(count - 1)
-  }  
+  }
 
   const handleChange = event => {
     const { id, value } = event.target
@@ -98,19 +96,12 @@ const Form = () => {
       ...newDriver,
       [id]: value
     })
-
-    //TODO arreglar esto, porque se pueden repetir
-    id === `teams${count - 1}` && setNewDriver({
-      ...newDriver,
-      teamsId: [...newDriver.teamsId, value]
-    })
   }
 
   console.log(newDriver)
-  
-  const handleSubmit = async (event) => {
-    //event.preventDefault()
-    await axios.post('http://localhost:3001/drivers', newDriver)
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
   }
 
   return (
@@ -128,7 +119,7 @@ const Form = () => {
 
         <div>
           <label htmlFor="nationality">Nationality: </label>
-          <select onChange={handleChange} value={newDriver.nationality} name="" id="nationality" /* defaultValue="selectNationality" */>
+          <select onChange={handleChange} value={newDriver.nationality} name="" id="nationality" defaultValue="selectNationality">
             <option value="selectNationality" >
               Select nationality
             </option>
@@ -149,7 +140,7 @@ const Form = () => {
 
         <div>
           <label htmlFor="description">Description: </label>
-          <input value={newDriver.description} onChange={handleChange} name="description" id="description" cols="36" rows="4"/>
+          <textarea textarea value={newDriver.description} onChange={handleChange} name="description" id="description" cols="36" rows="4"/>
         </div>
 
 

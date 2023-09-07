@@ -11,13 +11,10 @@ const Cards = () => {
 
   useEffect(() => {
     drivers.length === 0 && dispatch(getDrivers()) // Verifica si drivers tiene longitud 0 y llama a dispatch para obtener los datos
-  }, [driversFiltered])
-  
+  }, [dispatch, drivers, driversFiltered])
 
   const [page, setPage] = useState(1)
-
   const driversPerPage = 9
-
   const numberOfPages = Math.ceil(drivers.length / driversPerPage)
 
   const firstOfThePage = (page - 1) * driversPerPage // La página -1 es porque page inicia en 1, y yo necesito el indice 0, que es el primero
