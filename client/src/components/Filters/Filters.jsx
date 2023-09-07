@@ -45,7 +45,6 @@ const Filters =  () => {
         orderByNameSelector.value = "orderByName"
         orderByDobSelector.value = 'orderByDob'
         filterByOriginSelector.value = 'filterByOrigin'
-
     }
 
     /* const sortedTeams = () => {
