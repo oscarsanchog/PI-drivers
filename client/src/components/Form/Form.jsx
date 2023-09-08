@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from 'react-router-dom'
 import { getTeams, getDrivers } from "../../redux/actions"
+import validation from '../validations/formValidations'
 import axios from "axios"
 
 const Form = () => {
+  const dispatch = useDispatch()
+  //const navigate = useNavigate()
+
   const teams = useSelector((state) => state.teams)
   const drivers = useSelector((state) => state.drivers)
-  const dispatch = useDispatch()
+
   const [count, setCount] = useState(1)
+  const [ errors, setErrors] = useState({})
   const [newDriver, setNewDriver] = useState({
     name: {
       plainForename: "",
@@ -28,7 +34,6 @@ const Form = () => {
   }, [dispatch, teams, drivers])
 
   const uniqueNationalities = new Set()
-
   const filteredNationalities = drivers.filter((driver) => {
     if (!uniqueNationalities.has(driver.nationality)) {
       uniqueNationalities.add(driver.nationality)
@@ -63,31 +68,44 @@ const Form = () => {
   const handleAddTeamButton = () => {
     setCount(count + 1)
   }
-
   const handleRemoveTeamButton = () => {
     count >= 2 && setCount(count - 1)
     newDriver.teamsId.pop()
   }
 
   const handleChange = (event) => {
-    //console.log(event.target);
     const { id, value } = event.target
+    console.log(id);
 
-    id === "forename" ||
-      ("surename" &&
-        setNewDriver({
+    if (id === "plainForename" || id === "plainSurname") {
+      setNewDriver({
           ...newDriver,
           name: {
             ...newDriver.name,
             [id]: value,
           },
-        }))
+        })
 
-    id === "description" &&
+      setErrors(validation({
+        ...newDriver,
+          name: {
+            ...newDriver.name,
+            [id]: value,
+          },
+      }))
+    } 
+
+    if (id === "description") {
       setNewDriver({
         ...newDriver,
         [id]: value,
       })
+
+      setErrors(validation({
+        ...newDriver,
+        [id]: value
+      }))
+    }
 
     id === "url" &&
       setNewDriver({
@@ -98,30 +116,58 @@ const Form = () => {
         },
       })
 
-    id === "nationality" &&
+    if(id === "nationality") {
       setNewDriver({
         ...newDriver,
         [id]: value,
       })
 
-    id === "dob" &&
+      setErrors(validation({
+        ...newDriver,
+        [id]: value
+      }))
+    }
+
+    if(id === "dob") {
       setNewDriver({
         ...newDriver,
         [id]: value,
       })
+
+      setErrors(validation({
+        ...newDriver,
+        [id]: value
+      }))
+    }
 
     if (id.includes("teams")) {
       let teamIndex = id.split("").pop()
       !newDriver.teamsId.includes(value) && (newDriver.teamsId[teamIndex] = value)
+
+      setErrors(validation({
+        ...newDriver,
+        [id]: value
+      }))
     }
   }
 
-  console.log(newDriver)
-
   const handleSubmit = async (event) => {
-    //event.preventDefault()
+    
+    //console.log(Object.keys(errors).length === 0);
+    if(Object.keys(errors).length >= 1){
+      event.preventDefault()
+      window.alert('You are missing data or the data is entered incorrectly')
+
+      //useNavigate('detail/')
+      return
+      
+    }
+    window.alert('Created successfully!')
     await axios.post("http://localhost:3001/drivers", newDriver)
   }
+
+  //console.log(newDriver);
+  //console.log('globalState', drivers);
 
   return (
     <section>
@@ -131,10 +177,11 @@ const Form = () => {
           <input
             value={newDriver.name.plainForename}
             onChange={handleChange}
-            placeholder="Driver forename "
+            placeholder="Driver forename"
             id="plainForename"
             type="text"
           />
+          {errors.forename && <p style={{color: 'red'}}>{errors.forename}</p>}
         </div>
 
         <div>
@@ -143,9 +190,10 @@ const Form = () => {
             value={newDriver.name.plainSurname}
             onChange={handleChange}
             type="text"
-            placeholder="Driver surname "
+            placeholder="Driver surname"
             id="plainSurname"
           />
+          {errors.surname && <p style={{color: 'red'}}>{errors.surname}</p>}
         </div>
 
         <div>
@@ -160,6 +208,7 @@ const Form = () => {
             {nationalityOption()}
             <option value="other">Other</option>
           </select>
+            {errors.nationality && <p style={{color: 'red'}}>{errors.nationality}</p>}
         </div>
 
         <div>
@@ -183,6 +232,8 @@ const Form = () => {
             value={newDriver.dob}
             onChange={handleChange}
           />
+          {errors.dob && <p style={{color: 'red'}}>{errors.dob}</p>}
+
         </div>
 
         <div>
@@ -193,7 +244,9 @@ const Form = () => {
             name="description"
             id="description"
           />
+          
         </div>
+        {errors.description && <p style={{color: 'red'}}>{errors.description}</p>}
 
         <div>
           <label htmlFor={`teams${count - 1}`}>Teams: </label>
@@ -210,6 +263,7 @@ const Form = () => {
               </select>
             )
           )}
+          {errors.team && <p style={{color: 'red'}}>{errors.team}</p>}
         </div>
 
         <div>
