@@ -156,12 +156,13 @@ const Form = () => {
     //console.log(Object.keys(errors).length === 0);
     if(Object.keys(errors).length >= 1){
       event.preventDefault()
-      window.alert('You are missing data or the data is entered incorrectly')
+      window.alert('You are missing data or the data was introduced incorrectly')
 
       //useNavigate('detail/')
       return
       
     }
+    //TODO que cuando se guarde, se dirija a una success page que pargue el detail del personaje creado
     window.alert('Created successfully!')
     await axios.post("http://localhost:3001/drivers", newDriver)
   }
