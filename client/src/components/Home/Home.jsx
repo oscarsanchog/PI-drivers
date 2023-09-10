@@ -1,12 +1,13 @@
 import Filters from "../Filters/Filters"
 import Cards from "../Cards/Cards"
+import styles from './Home.module.css'
 
 
-const Home = () => {
+const Home = ({forCleanDriversFiltered}) => {
     return(
-        <div>
-            <Filters/>
-            <Cards />
+        <div className={styles.homeContainer}>
+            <Filters forCleanDriversFiltered={forCleanDriversFiltered}/>
+            <Cards  />
         </div>
     )
 }

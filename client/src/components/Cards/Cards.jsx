@@ -3,6 +3,7 @@ import Card from "../Card/Card"
 import Pagination from "../Pagination/Pagination"
 import { useState, useEffect } from "react"
 import { getDrivers } from "../../redux/actions"
+import styles from './Cards.module.css'
 
 const Cards = () => {
   const drivers = useSelector((state) => state.drivers)
@@ -20,30 +21,27 @@ const Cards = () => {
   const firstOfThePage = (page - 1) * driversPerPage // La página -1 es porque page inicia en 1, y yo necesito el indice 0, que es el primero
   const lastOfThePage = (page - 1) * driversPerPage + driversPerPage
 
+  const renderCard = (card) => {
+    return card
+    .slice(firstOfThePage, lastOfThePage)
+    .map(({ id, image, name, teams, dob }) => {
+      return (
+        <Card key={id} id={id} image={image} name={name} teams={teams} dob={dob}/>
+      )
+    })
+  }
+
   const renderCardHandler = () => {
     return (
       driversFiltered.length > 0
-      ? driversFiltered
-          .slice(firstOfThePage, lastOfThePage)
-          .map(({ id, image, name, teams }) => {
-            return (
-              <Card key={id} id={id} image={image} name={name} teams={teams} />
-            )
-          })
-      : drivers
-          ?.slice(firstOfThePage, lastOfThePage)
-          ?.map(({ id, image, name, teams }) => {
-            return (
-              <Card key={id} id={id} image={image} name={name} teams={teams} />
-            )
-          })
+      ? renderCard(driversFiltered)  
+      : renderCard(drivers)
     )
   }
 
-
   return (
-    <section>
-      <ul>{renderCardHandler()}</ul>
+    <section className={styles.CardsPagcontainer} >
+      <ul className={styles.cardsContainer}>{renderCardHandler()}</ul>
       <Pagination page={page} setPage={setPage} numberOfPages={numberOfPages} />
     </section>
   )

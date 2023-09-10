@@ -1,0 +1,28 @@
+.containerFilters {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  /* top: 0;
+    right: 0 */
+  position: sticky;
+  top: 25%;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0.26);
+  /* border-right: 1px solid #ffb300; */
+  border-left: 1px solid #ffb300;
+  padding: 2rem;
+  border-radius: 1rem;
+
+  /*     width: 5rem;
+ */ /* top: 20rem; */ /* Puedes ajustar la posición superior según tus necesidades */
+  /* left: 0;  */
+  /* z-index: 999; */
+}
+
+.filterButton {
+    padding: 8px;
+    border-radius: 1rem;
+    
+
+}

@@ -1,7 +1,9 @@
 import { useState } from "react"
+import styles from './Pagination.module.css'
 
 const Pagination = ({ page, setPage, numberOfPages }) => {
   const [input, setInput] = useState(1)
+  const [inputAux, setInputAux] = useState(0)
 
   const previousPage = () => {
     setInput(+input - 1)
@@ -36,23 +38,32 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
     setInput(event.target.value)
   }
 
+  const handleOnClick = () => {
+    setInputAux(input)
+    setInput('')
+  }
+  
+  const handleBlur = () => {
+    if(input === '') setInput(inputAux)
+  }
+
   return (
-    <div>
-      <button disabled={page <= 1} onClick={previousPage}>
-        ◀️ 
-      </button>
+    <div className={styles.paginationContainer}>
+      <button className={styles.rightButton} disabled={page <= 1} onClick={previousPage}>◀️</button>
+
       <input
         type="text"
         value={input}
         name="page"
         onChange={(event) => onChange(event)}
         onKeyDown={(event) => onKeyDown(event)}
-        onClick={() => setInput('')}
+        onBlur={handleBlur}
+        onClick={handleOnClick}
       />
+
       <span>of {numberOfPages}</span>
-      <button disabled={page >= 56} onClick={nextPage}>
-        ▶️
-      </button>
+
+      <button className={styles.leftButton} disabled={page >= numberOfPages} onClick={nextPage}>▶️</button>
     </div>
   )
 }

@@ -1,11 +1,12 @@
 import SearchBar from "../SearchBar/SearchBar"
-
 import { Link } from "react-router-dom"
+import styles from './Nav.module.css'
 
-const Nav = () => {
+const Nav = ({ forCleanDriversFiltered }) => {
+  
   return (
-    <nav>
-      <button>
+    <nav className={styles.navContainer}>
+      <button onClick={forCleanDriversFiltered}>
         <Link to={"/home"}>Home</Link>
       </button>
 
@@ -13,11 +14,7 @@ const Nav = () => {
         <Link to={"/form"}>Create a driver</Link>
       </button>
 
-      <button>
-        <Link to={"/about"}>About me</Link>
-      </button>
-
-      <SearchBar />
+      <SearchBar forCleanDriversFiltered={forCleanDriversFiltered}/>
     </nav>
   )
 }

@@ -3,8 +3,9 @@ import { getDriversByName, getDriverById, getDrivers, cleanDriversFiltered } fro
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
 import axios from "axios"
+import styles from './SearchBar.module.css'
 
-const SearchBar = () => {
+const SearchBar = ({ forCleanDriversFiltered }) => {
   const [name, setName] = useState("")
   const { pathname } = useLocation()
   const dispatch = useDispatch()
@@ -35,7 +36,6 @@ const SearchBar = () => {
   }
 
   const idArray = []
-
   const randomHandler = async () => {
     const URL_SERVER = 'http://localhost:3001/drivers'
 
@@ -45,17 +45,18 @@ const SearchBar = () => {
     }
     const randomIndex = Math.floor(Math.random() * idArray.length)
     const randomId = idArray[randomIndex]
+    //dispatch(cleanDriversFiltered())
     dispatch(getDriverById(randomId))
     setName("")
   }
 
   const clearHandler = async () => {
-    dispatch(cleanDriversFiltered())
+    forCleanDriversFiltered()
     setName("")
   }
 
   return (
-    <div>
+    <div className={styles.searchBarContainer}>
       <input
         type="text"
         name="driverName"
@@ -65,15 +66,14 @@ const SearchBar = () => {
         onKeyDown={handleKeyDown}
         disabled={handleDisabled()}
         onClick={() => setName("")}
+        className={styles.searchBarInput}
       />
 
-      <button id="searchButton" onClick={() => onSearch(name)} disabled={handleDisabled()}>
-        🔍
-      </button>
+      <button className={styles.searchButton} id="searchButton" onClick={() => onSearch(name)} disabled={handleDisabled()}>🔍</button>
 
-      <button id="randomButton" disabled={handleDisabled()} onClick={randomHandler}>🎲</button>
+      <button className={styles.randomButton} id="randomButton" disabled={handleDisabled()} onClick={randomHandler}>🎲</button>
 
-      <button id="clearButton" disabled={handleDisabled()} onClick={clearHandler}>🧹</button>
+      <button className={styles.clearButton} id="clearButton" disabled={handleDisabled()} onClick={clearHandler}>🧼</button>
     </div>
   )
 }

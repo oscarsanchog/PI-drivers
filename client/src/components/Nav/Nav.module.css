@@ -1,0 +1,15 @@
+.navContainer {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  position: sticky;
+  top: 0;
+
+/*   border-bottom: 1px rgb(0, 0, 0) ;
+ */  /* border-right: 1px solid #ffb300; */
+  border-left: 1px solid #ffb300; 
+  border-radius: 0 0 10px 10px;
+  width: 80%;
+}

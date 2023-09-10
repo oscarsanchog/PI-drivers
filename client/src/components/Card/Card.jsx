@@ -1,22 +1,21 @@
 import { Link } from "react-router-dom"
 import { teamsFormat } from "../../utils/teamsFormat"
+import style from "./Card.module.css"
 
-const Card = ({ id, image, name, teams }) => {
+const Card = ({ id, image, name, teams, dob }) => {
   return (
-    <li>
+    <li className={style.card}>
       <Link to={`/detail/${id}`}>
-        <img src={image.url} alt={`${name.forename} ${name.surname}`} />
+        <img className={style.img} src={image.url} alt={`${name.forename} ${name.surname}`} />
       </Link>
 
-      <h2>
-        Name:
+             
         <Link to={`/detail/${id}`}>
-          {" "}
-          {name.forename} {name.surname}
+          <h2>{name.forename} {name.surname}</h2>
         </Link>
-      </h2>
-
-      <h3>Teams: {teamsFormat(id, teams)} </h3>
+      
+      <p>Teams: {teamsFormat(id, teams)} </p>
+      <p>Birthdate: {dob}</p>
     </li>
   )
 }

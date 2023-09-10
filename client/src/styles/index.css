@@ -25,16 +25,23 @@ a {
 
 body {
   margin: 0;
+  padding: 0;
   /* display: flex; */
   /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
+/*   background-image: url('../assets/img/background.jpg');
+ */
 }
 
 h1 {
   margin: 0rem;
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+h2, h3 {
+  margin: 0;
 }
 
 p {
@@ -58,6 +65,11 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+select {
+  padding: 8px 0;
+  border-radius: 1rem;
 }
 
 @media (prefers-color-scheme: light) {
