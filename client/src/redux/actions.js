@@ -13,7 +13,6 @@ import {
 } from "./action-types"
 
 import axios from "axios"
-
 const URL_SERVER = "http://localhost:3001/drivers"
 
 export const getDrivers = () => {

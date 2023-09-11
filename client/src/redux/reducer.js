@@ -62,7 +62,9 @@ const reducer = (state = initialState, { type, payload }) => {
       }
 
     case ORDER_BY_NAME:
-      state.driversFiltered = [...state.drivers]
+      state.driversFiltered.length === 0 && (state.driversFiltered = [...state.drivers])
+      state.driversFiltered.length > 0 && (state.driversFiltered = [...state.driversFiltered])
+
 
       return {
         ...state,

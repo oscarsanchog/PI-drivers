@@ -7,11 +7,13 @@ import styles from './Cards.module.css'
 
 const Cards = () => {
   const drivers = useSelector((state) => state.drivers)
-  const driversFiltered = useSelector((state) => state.driversFiltered)
+  let driversFiltered = useSelector((state) => state.driversFiltered)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    drivers.length === 0 && dispatch(getDrivers()) // Verifica si drivers tiene longitud 0 y llama a dispatch para obtener los datos
+/*   let driverFilteredUpdated = driversFiltered[0]?.id
+ */  useEffect(() => {
+    drivers.length === 0 && dispatch(getDrivers()); // Verifica si drivers tiene longitud 0 y llama a dispatch para obtener los datos
+    
   }, [dispatch, drivers, driversFiltered])
 
   const [page, setPage] = useState(1)
