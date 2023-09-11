@@ -20,6 +20,7 @@
     margin-top: .5rem;
     transition: .5s;
 }
+
 .img:hover{
     box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.75);
 }
@@ -28,4 +29,8 @@
     font-size: 16px;
     margin: .5rem;
     color: black;
+}
+
+.cardTeams {
+    overflow-y:hidden;
 }

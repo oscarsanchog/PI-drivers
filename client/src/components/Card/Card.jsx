@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
 import { teamsFormat } from "../../utils/teamsFormat"
-import style from "./Card.module.css"
+import styles from "./Card.module.css"
 
 const Card = ({ id, image, name, teams, dob }) => {
   return (
-    <li className={style.card}>
+    <li className={styles.card}>
       <Link to={`/detail/${id}`}>
-        <img className={style.img} src={image.url} alt={`${name.forename} ${name.surname}`} />
+        <img className={styles.img} src={image.url} alt={`${name.forename} ${name.surname}`} />
       </Link>
 
              
@@ -14,8 +14,8 @@ const Card = ({ id, image, name, teams, dob }) => {
           <h2>{name.forename} {name.surname}</h2>
         </Link>
       
-      <p>Teams: {teamsFormat(id, teams)} </p>
-      <p>Birthdate: {dob}</p>
+      <p className={styles.cardTeams}>Teams: {teamsFormat(id, teams)} </p>
+      <p >Birthdate: {dob}</p>
     </li>
   )
 }

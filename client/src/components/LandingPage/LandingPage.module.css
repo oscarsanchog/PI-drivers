@@ -26,6 +26,7 @@
     border-radius: 1.5rem;
     height: 26rem;
     width: 31rem;
+    border-left: 1px solid #ffb300;
 }
 
 .tittle {

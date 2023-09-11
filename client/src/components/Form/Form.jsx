@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import { getTeams, getDrivers } from "../../redux/actions"
 import validation from '../validations/formValidations'
 import axios from "axios"
+import styles from './Form.module.css'
 
 const Form = () => {
   const dispatch = useDispatch()
-  //const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const teams = useSelector((state) => state.teams)
   const drivers = useSelector((state) => state.drivers)
@@ -152,130 +153,151 @@ const Form = () => {
   }
 
   const handleSubmit = async (event) => {
-    
+    event.preventDefault()
     //console.log(Object.keys(errors).length === 0);
     if(Object.keys(errors).length >= 1){
-      event.preventDefault()
+      
       window.alert('You are missing data or the data was introduced incorrectly')
 
       //useNavigate('detail/')
       return
-      
     }
-    //TODO que cuando se guarde, se dirija a una success page que pargue el detail del personaje creado
-    window.alert('Created successfully!')
+    window.alert('Created succesfully!')
+
     await axios.post("http://localhost:3001/drivers", newDriver)
+    && navigate('/home')
   }
 
   //console.log(newDriver);
   //console.log('globalState', drivers);
 
   return (
-    <section>
-      <form /* action="" */ onSubmit={handleSubmit}>
+    <section className={styles.formContainer}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        
         <div>
-          <label htmlFor="forename">Forename: </label>
+          <label htmlFor="forename" title={errors.forename? errors.forename: "It must not be empty and not have any symbols"}>Forename: </label>
           <input
+            required
             value={newDriver.name.plainForename}
             onChange={handleChange}
             placeholder="Driver forename"
             id="plainForename"
             type="text"
+            title={errors.forename? errors.forename: "It must not be empty and not have any symbols"}
+            autoFocus
+            /* pattern={/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]*$/} */
           />
-          {errors.forename && <p style={{color: 'red'}}>{errors.forename}</p>}
+          {errors.forename && <span title={errors.forename && errors.forename} style={{color: 'red'}}> *</span>}
         </div>
 
         <div>
-          <label htmlFor="surname">Surname: </label>
+          <label title={errors.surname? errors.surname: "It must not be empty and not have any symbols"} htmlFor="surname">Surname: </label>
           <input
+            required
             value={newDriver.name.plainSurname}
             onChange={handleChange}
             type="text"
             placeholder="Driver surname"
             id="plainSurname"
+            title={errors.surname? errors.surname: "It must not be empty and not have any symbols"}
           />
-          {errors.surname && <p style={{color: 'red'}}>{errors.surname}</p>}
+          {errors.surname && <span title={errors.surname && errors.surname} style={{color: 'red'}}> *</span>}
         </div>
 
         <div>
-          <label htmlFor="nationality">Nationality: </label>
+          <label title={errors.nationality? errors.nationality: 'You must select a nationality'} htmlFor="nationality">Nationality: </label>
           <select
+            required
             onChange={handleChange}
             value={newDriver.nationality}
             name=""
             id="nationality" /* defaultValue="selectNationality" */
+            title={errors.nationality? errors.nationality: 'You must select a nationality'}
           >
             <option value="selectNationality">Select nationality</option>
             {nationalityOption()}
-            <option value="other">Other</option>
+            {/* <option value="other">Other</option> */}
           </select>
-            {errors.nationality && <p style={{color: 'red'}}>{errors.nationality}</p>}
+          {errors.nationality && <span title={errors.nationality && errors.nationality} style={{color: 'red'}}> *</span>}
         </div>
 
         <div>
-          <label htmlFor="url">Image: </label>
+          <label title="Paste your url" htmlFor="url">Image: </label>
           <input
+            title="Paste your url"
             value={newDriver.image.url}
             onChange={handleChange}
             placeholder="Paste your image url"
             type="url"
             name="url"
             id="url"
-            pattern="https?://.+"
           />
         </div>
 
         <div>
-          <label htmlFor="dob">Birthdate: </label>
+          <label title={errors.dob? errors.dob: 'You must introduce the birthdate'} htmlFor="dob">Birthdate: </label>
           <input
+            required
             type="date"
             id="dob"
             value={newDriver.dob}
             onChange={handleChange}
+            title={errors.dob? errors.dob: 'You must introduce the birthdate'}
           />
-          {errors.dob && <p style={{color: 'red'}}>{errors.dob}</p>}
-
+          {errors.dob && <span title={errors.dob && errors.dob} style={{color: 'red'}}> *</span>}
         </div>
 
         <div>
-          <label htmlFor="description">Description: </label>
-          <input
+          <div>
+          <label title={errors.description? errors.description: 'You must introduce a description'} htmlFor="description">Description</label>
+          {errors.description && <span title={errors.description && errors.description} style={{color: 'red'}}> *</span>}
+
+          </div>
+          <textarea
+            className={styles.description}
+            required
             value={newDriver.description}
             onChange={handleChange}
             name="description"
             id="description"
+            title={errors.description? errors.description: 'You must introduce a description'}
           />
-          
         </div>
-        {errors.description && <p style={{color: 'red'}}>{errors.description}</p>}
 
-        <div>
-          <label htmlFor={`teams${count - 1}`}>Teams: </label>
+        <div className={styles.teams}>
+          <div>
+
+          <label title={errors.team? errors.team: 'You must introduce a team'} htmlFor={`teams${count - 1}`}>Teams</label>
+          {errors.team && <span title={errors.team && errors.team} style={{color: 'red'}}> *</span>}
+          </div>
+
           {[...Array(count)].map((_, i) => ( // Crear los selectores usando el contador
               <select
+                required
                 key={i}
                 name={`teams${i}`}
                 id={`teams${i}`}
                 defaultValue="selectTeams"
-                /* value={newDriver.teamsId} */ onChange={handleChange}>
+                title={errors.team? errors.team: 'You must introduce a team'}
+                onChange={handleChange}
+              >
                 <option value="selectTeams">Select teams</option>
                 {teamsOption()}
-                <option value="other">Other</option>
               </select>
             )
           )}
-          {errors.team && <p style={{color: 'red'}}>{errors.team}</p>}
         </div>
 
-        <div>
+        <div className={styles.teamButtons}>
           <button
             disabled={count <= 1}
             type="button"
             onClick={handleRemoveTeamButton}>
-            Remove driver
+            ➖
           </button>
           <button type="button" onClick={handleAddTeamButton}>
-            Add team
+            ➕
           </button>
         </div>
 

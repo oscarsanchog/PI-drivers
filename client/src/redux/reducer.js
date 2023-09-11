@@ -97,7 +97,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case FILTER_BY_TEAM:
       state.driversFiltered = [...state.drivers]
 
-      const filterFunction = state.driversFiltered.filter(driver => {
+      const filterTeamsFunction = state.driversFiltered.filter(driver => {
         if(typeof driver.teams === 'string') {
           if(driver.teams.includes(payload)) return driver.teams
 
@@ -108,7 +108,7 @@ const reducer = (state = initialState, { type, payload }) => {
 
       return {
         ...state,
-        driversFiltered: filterFunction
+        driversFiltered: filterTeamsFunction
       }
 
     case GET_TEAMS:

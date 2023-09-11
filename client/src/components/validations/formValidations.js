@@ -13,7 +13,7 @@ const validation = (userData) => {
     if(!REGEX_NAME.test(userData.name.plainSurname)) errors.surname = notSymbolMessage
     if(!userData.name.plainSurname) errors.surname = emptyMessage
 
-    if(userData.nationality === 'selectNationality') errors.nationality = 'You must select a nationality'
+    if(!userData.nationality || userData.nationality === 'selectNationality') errors.nationality = 'You must select a nationality'
 
     if(!userData.dob) errors.dob = 'You must introduce the birthdate'
 
