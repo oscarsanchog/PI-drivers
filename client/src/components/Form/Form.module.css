@@ -1,16 +1,16 @@
 .formContainer{
-    background-color: #0000009f;
+    background-color: var(--background-color-containers);
     padding: 2.5rem;
-    border-radius: 1rem;
+    border-radius: var(--border-radius);
     margin: .3rem 0 5.5rem;
     height: 100%;
-    border-left: 1px solid #ffb300;
+    border-left: 1px solid var(--color-elements);
 }
 
 .form {
-    background-color: #ffc600;
+    background-color: var(--color-elements);
     padding: 1.5rem;
-    border-radius: 1rem;
+    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,7 +24,7 @@
 }
 
 .form input {
-    border-radius: 1rem;
+    border-radius: var(--border-radius);
     border: 1px solid rgb(170, 170, 170);
     padding: .5rem;
 
@@ -40,7 +40,7 @@
     height: 3rem;
     width: 15rem;
     border: 1px solid rgb(170, 170, 170);
-    border-radius: 1rem;
+    border-radius: var(--border-radius);
     font-family: inherit;
 }
 

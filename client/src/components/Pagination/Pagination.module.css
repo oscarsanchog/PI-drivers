@@ -1,15 +1,13 @@
 .paginationContainer {
-    background-color: rgba(0, 0, 0, 0.26);
+    background-color: var(--background-color-containers);
     width: fit-content;
     padding: 1rem;
-    border-radius: 1rem;
+    border-radius: var(--border-radius);
     display: flex;
     position: relative;
     left: 1rem;
     margin-bottom: 2rem;
-    border-left: 1px solid #ffb300; 
-    
-    
+    border-left: 1px solid var(--color-elements); 
 }
 
 .paginationContainer  input{
@@ -30,7 +28,7 @@
 
 .rightButton {
     border-radius: 8px 0 0 8px ;
-    border: 1px solid rgba(0, 0, 0, 0.116);;
+    border: 1px solid rgba(0, 0, 0, 0.116);
 }
 
 .leftButton {

@@ -20,17 +20,17 @@
     align-items:center;
     gap: 2.5rem;
     
-    background-color: rgba(0, 0, 0, 0.623);
+    background-color: #0000009f;
     margin-left: 37rem;
     /* padding: 2rem; */
-    border-radius: 1.5rem;
+    border-radius: var(--border-radius);
     height: 26rem;
     width: 31rem;
-    border-left: 1px solid #ffb300;
+    border-left: 1px solid var(--color-elements);
 }
 
 .tittle {
-    color: #FFC600;
+    color: var(--color-elements);
     font-size: 3rem;
 }
 

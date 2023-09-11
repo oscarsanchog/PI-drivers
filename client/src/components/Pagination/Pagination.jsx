@@ -47,9 +47,14 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
     if(input === '') setInput(inputAux)
   }
 
+  const handleOnKeyDown = (event) => {
+    event.key === 'ArrowLeft' && document.getElementById('arrowLeft').click()
+    event.key === 'ArrowRight' && document.getElementById('arrowRight').click()
+  }
+
   return (
     <div className={styles.paginationContainer}>
-      <button className={styles.rightButton} disabled={page <= 1} onClick={previousPage}>◀️</button>
+      <button id="arrowLeft" onKeyDown={handleOnKeyDown} className={styles.rightButton} disabled={page <= 1} onClick={previousPage}>◀️</button>
 
       <input
         type="text"
@@ -63,7 +68,7 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
 
       <span>of {numberOfPages}</span>
 
-      <button className={styles.leftButton} disabled={page >= numberOfPages} onClick={nextPage}>▶️</button>
+      <button id="arrowRight" onKeyDown={handleOnKeyDown} className={styles.leftButton} disabled={page >= numberOfPages} onClick={nextPage}>▶️</button>
     </div>
   )
 }
