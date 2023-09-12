@@ -1,6 +1,5 @@
 const validation = (userData) => {
     const errors = {}
-    console.log('userData', userData);
 
     const REGEX_NAME = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]*$/
 
@@ -8,7 +7,7 @@ const validation = (userData) => {
     const emptyMessage = 'It must not be empty'
 
     if(!REGEX_NAME.test(userData.name.plainForename)) errors.forename = notSymbolMessage
-    if(!userData.name.plainForename) errors.forename = emptyMessage
+    if(!userData.name.plainForename ) errors.forename = emptyMessage
 
     if(!REGEX_NAME.test(userData.name.plainSurname)) errors.surname = notSymbolMessage
     if(!userData.name.plainSurname) errors.surname = emptyMessage
@@ -22,7 +21,6 @@ const validation = (userData) => {
     if(!userData.description) errors.description = 'You must introduce a description'
     
     return errors
-    
 }
 
 export default validation

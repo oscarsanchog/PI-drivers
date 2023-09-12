@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { getDrivers } from "../../redux/actions"
 import styles from './Cards.module.css'
 
-const Cards = () => {
+const Cards = ({ teamsFormat }) => {
   const drivers = useSelector((state) => state.drivers)
   let driversFiltered = useSelector((state) => state.driversFiltered)
   const dispatch = useDispatch()
@@ -18,7 +18,8 @@ const Cards = () => {
 
   const [page, setPage] = useState(1)
   const driversPerPage = 9
-  const numberOfPages = Math.ceil(drivers.length / driversPerPage)
+  const driversForShow = driversFiltered.length > 0 ? driversFiltered.length: drivers.length
+  const numberOfPages = Math.ceil(driversForShow / driversPerPage)
 
   const firstOfThePage = (page - 1) * driversPerPage // La página -1 es porque page inicia en 1, y yo necesito el indice 0, que es el primero
   const lastOfThePage = (page - 1) * driversPerPage + driversPerPage
@@ -28,7 +29,7 @@ const Cards = () => {
     .slice(firstOfThePage, lastOfThePage)
     .map(({ id, image, name, teams, dob }) => {
       return (
-        <Card key={id} id={id} image={image} name={name} teams={teams} dob={dob}/>
+        <Card key={id} id={id} image={image} name={name} teams={teams} dob={dob} teamsFormat={teamsFormat}/>
       )
     })
   }

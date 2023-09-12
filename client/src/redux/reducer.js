@@ -16,8 +16,11 @@ const initialState = {
   drivers: [],
   driverDetail: {},
   driversFiltered: [],
+  /* filteredByOrigin: [], */
   teams: []
 }
+
+
 
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -62,9 +65,9 @@ const reducer = (state = initialState, { type, payload }) => {
       }
 
     case ORDER_BY_NAME:
-      state.driversFiltered.length === 0 && (state.driversFiltered = [...state.drivers])
-      state.driversFiltered.length > 0 && (state.driversFiltered = [...state.driversFiltered])
-
+      state.driversFiltered.length === 0
+      ? state.driversFiltered = [...state.drivers]
+      : state.driversFiltered = [...state.driversFiltered]
 
       return {
         ...state,
@@ -75,7 +78,10 @@ const reducer = (state = initialState, { type, payload }) => {
       }
 
     case ORDER_BY_DOB:
-      state.driversFiltered = [...state.drivers]
+      state.driversFiltered.length === 0
+      ? state.driversFiltered = [...state.drivers]
+      : state.driversFiltered = [...state.driversFiltered]
+      
 
       return {
         ...state,
@@ -85,7 +91,11 @@ const reducer = (state = initialState, { type, payload }) => {
           : state.driversFiltered.sort((a, b) => b.dob.localeCompare(a.dob))
       }
 
+
     case FILTER_BY_ORIGIN: 
+    /* state.driversFiltered.length === 0
+      ? state.driversFiltered = [...state.drivers]
+      : state.driversFiltered = [...state.driversFiltered] */
     state.driversFiltered = [...state.drivers]
     
       return {

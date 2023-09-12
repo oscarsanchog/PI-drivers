@@ -6,7 +6,7 @@ import validation from '../validations/formValidations'
 import axios from "axios"
 import styles from './Form.module.css'
 
-const Form = () => {
+const Form = ({ teamsOptions }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -14,7 +14,6 @@ const Form = () => {
   const drivers = useSelector((state) => state.drivers)
 
   const [count, setCount] = useState(1)
-  const [ errors, setErrors] = useState({})
   const [newDriver, setNewDriver] = useState({
     name: {
       plainForename: "",
@@ -28,6 +27,8 @@ const Form = () => {
     dob: "",
     teamsId: [],
   })
+
+  const [ errors, setErrors] = useState(newDriver)
 
   useEffect(() => {
     teams.length === 0 && dispatch(getTeams())
@@ -53,19 +54,6 @@ const Form = () => {
       ))
   }
 
-  const teamsOption = () => {
-    return teams
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map((team) => (
-        <option
-          key={team.id}
-          value={team.id} /* onChange={handleChange} */ /* value={team.name} */
-        >
-          {team.name}
-        </option>
-      ))
-  }
-
   const handleAddTeamButton = () => {
     setCount(count + 1)
   }
@@ -76,8 +64,7 @@ const Form = () => {
 
   const handleChange = (event) => {
     const { id, value } = event.target
-    console.log(id);
-
+    
     if (id === "plainForename" || id === "plainSurname") {
       setNewDriver({
           ...newDriver,
@@ -168,9 +155,7 @@ const Form = () => {
     && navigate('/home')
   }
 
-  //console.log(newDriver);
-  //console.log('globalState', drivers);
-
+  
   return (
     <section className={styles.formContainer}>
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -283,7 +268,7 @@ const Form = () => {
                 onChange={handleChange}
               >
                 <option value="selectTeams">Select teams</option>
-                {teamsOption()}
+                {teamsOptions(teams, 'id')}
               </select>
             )
           )}
@@ -301,7 +286,7 @@ const Form = () => {
           </button>
         </div>
 
-        <button>Create driver</button>
+        <button disabled={Object.keys(errors).length >= 1}>Create driver</button>
       </form>
     </section>
   )

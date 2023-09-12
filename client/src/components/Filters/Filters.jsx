@@ -4,18 +4,13 @@ import { orderByName, orderByDob, filterByOrigin, filterByTeam, getTeams } from 
 import styles from './Filters.module.css'
 
 
-const Filters =  ({ forCleanDriversFiltered }) => {
+const Filters =  ({ forCleanDriversFiltered, teamsOptions }) => {
     const teams = useSelector(state => state.teams)
     const dispatch = useDispatch()
 
     useEffect(() => {
         teams.length === 0 && dispatch(getTeams())
     }, [])
-
-    /* const orderByName = 'orderByName'
-    const orderByDob = 'orderByDob'
-    const filterByOrigin = 'filterByOrigin'
-    const filterByTeam = 'filterByTeam' */
 
     const orderByNameSelector = document.getElementById('orderByName')
     const orderByDobSelector = document.getElementById('orderByDob')
@@ -26,16 +21,16 @@ const Filters =  ({ forCleanDriversFiltered }) => {
         const sort = event.target.value
         dispatch(orderByName(sort))
         orderByDobSelector.value = 'orderByDob'
-        filterByOriginSelector.value = 'filterByOrigin'
-        filterByTeamSelector.value = 'filterByTeam'
+        /* filterByOriginSelector.value = 'filterByOrigin' */
+        /* filterByTeamSelector.value = 'filterByTeam' */
     }
 
     const orderByDobHandler = (event) => {
         const sort = event.target.value
         dispatch(orderByDob(sort))
         orderByNameSelector.value = "orderByName"
-        filterByOriginSelector.value = 'filterByOrigin'
-        filterByTeamSelector.value = 'filterByTeam'
+        /* filterByOriginSelector.value = 'filterByOrigin'
+        filterByTeamSelector.value = 'filterByTeam' */
     }
 
     const filterByOriginHandler = (event) => {
@@ -53,12 +48,6 @@ const Filters =  ({ forCleanDriversFiltered }) => {
         orderByDobSelector.value = 'orderByDob'
         filterByOriginSelector.value = 'filterByOrigin'
     }
-
-    /* const sortedTeams = () => {
-        teams.sort((a, b) => a.name.localeCompare(b.name)).map((team) => (
-            <option key={team.id} value={team.name}>{team.name}</option>
-        ))
-    } */
     
     return (
         <section className={styles.containerFilters}>
@@ -82,11 +71,7 @@ const Filters =  ({ forCleanDriversFiltered }) => {
 
             <select id="filterByTeam" defaultValue='filterByTeam' onChange={filterByTeamHandler}>
                 <option value="filterByTeam" disabled>Filter by team</option>
-                {
-                    teams.sort((a, b) => a.name.localeCompare(b.name)).map((team) => (
-                        <option key={team.id} value={team.name}>{team.name}</option>
-                    ))
-                }
+                {teamsOptions(teams, 'name')}
             </select>
 
             <button onClick={forCleanDriversFiltered} className={styles.filterButton}>Clear</button>

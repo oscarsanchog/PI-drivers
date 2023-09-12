@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 import { getDetail, cleanDetail } from "../../redux/actions"
-import { teamsFormat } from "../../utils/teamsFormat"
+//import { teamsFormat } from "../../utils/teamsFormat"
 import styles from "./Detail.module.css"
 
-const Detail = () => {
+const Detail = ({ teamsFormat }) => {
   const driver = useSelector((state) => state.driverDetail)
   const { image, name, nationality, description, dob, teams } = driver
   const dispatch = useDispatch()

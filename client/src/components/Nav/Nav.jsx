@@ -6,7 +6,7 @@ const Nav = ({ forCleanDriversFiltered }) => {
   
   return (
     <nav className={styles.navContainer}>
-      <button onClick={forCleanDriversFiltered}>
+      <button>
         <Link to={"/home"}>Home</Link>
       </button>
 
