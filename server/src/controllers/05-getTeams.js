@@ -1,52 +1,20 @@
-const axios = require("axios")
 const { Team } = require("../db")
-const URL_API = require("../utils/url")
+const postTeams = require('./06-postTeams')
 
-const postTeams = async () => {
-  const { data: apiDrivers } = await axios(URL_API)
-  const uniqueTeams = new Set()
-
-  apiDrivers
-    .filter((driver) => driver.teams) // filtra los drivers que sí tienen teams declarados (no es undefined)
-    .map((driver) => driver.teams.split(",")) // filter  devuelve un arr con obj (con los teams de los drivers) y a los strings dentro de los array los separo por cada ','
-    .flat() // Uno los strings en un solo array
-    .map((teamString) => teamString.trim()) // normalizo cada string del array para que no haya espacios ni adelante ni atras
-    .forEach(team => uniqueTeams.add(team)) // los agrego al set y elimino los repetidos
-
-  uniqueTeams.forEach((team) =>  Team.findOrCreate({ where: { name: team } })) // Recorre el set y los agrega a la db
-  /* const teams = repeatedTeams.filter(team => {
-    if (!uniqueTeams.has(team.name)) {
-      uniqueTeams.add(team.name)
-    }
-  }) */
-  /* await apiDrivers // Necesita un await porque al final tiene una petición a la BD
-    .filter((driver) => driver.teams) // filtra los drivers que sí tienen teams declarados (no es undefined)
-    .map((driver) => driver.teams.split(",")) // filter  devuelve un arr con obj (con los teams de los drivers) y a los strings dentro de los array los separo por cada ','
-    .flat() // Uno los strings en un solo array
-    .map(teamString => teamString.trim()) // normalizo cada string del array para que no haya espacios ni adelante ni atras
-    .forEach((teamAPI) => Team.findOrCreate({ where: { name: teamAPI } })) //por cada string del array (por cada equipo), creo un nuevo value en la tabla con tal equipo
-} */
-}
-
-const getTeams = async (req, res) => {
+module.exports = async (req, res) => {
   try {
     const dbTeams = await Team.findAll()
 
-    if (!dbTeams.length) {
-      // si la petición de arriba me arrojó un array vacío es porque no hay teams y los crea desde la api
+    if (!dbTeams.length) {// si la petición de arriba me arrojó un array vacío es porque no hay teams y los crea desde la api
       await postTeams()
-      return res.status(200).json(await Team.findAll())
+      const createdTeams = await Team.findAll()
+      return res.status(200).json(createdTeams)
     }
 
     res.status(200).json(dbTeams)
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
-}
-
-module.exports = {
-  getTeams,
-  postTeams,
 }
 
 /*  

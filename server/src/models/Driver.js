@@ -12,15 +12,7 @@ module.exports = (sequelize) => {
    name: {
     type: DataTypes.JSONB,
     allowNull: false,
-   },
-    /* forename: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    surname: {
-      type: DataTypes.STRING,
-      allowNull: false, */
-    
+   },    
     description: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -37,9 +29,5 @@ module.exports = (sequelize) => {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    /* team: {
-      type: DataTypes.STRING,
-      
-    } */
   }, { timestamps: false });
 };

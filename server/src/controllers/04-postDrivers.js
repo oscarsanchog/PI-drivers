@@ -3,14 +3,7 @@ const { postTeams } = require("../controllers/05-getTeams")
 
 module.exports = async (req, res) => {
   try {
-    let {
-      name,
-      description,
-      image,
-      nationality,
-      dob,
-      teamsId,
-    } = req.body
+    let { name, description, image, nationality, dob, teamsId } = req.body
 
     if (
       !name.plainForename ||
@@ -19,8 +12,7 @@ module.exports = async (req, res) => {
       !nationality ||
       !dob ||
       !teamsId
-    )
-      return res.status(401).send("Faltan datos")
+    ) return res.status(401).send("Faltan datos")
 
     const forename =
       name.plainForename.charAt(0).toUpperCase() +
@@ -34,19 +26,19 @@ module.exports = async (req, res) => {
 
     if (!dbTeams.length) await postTeams()
 
-    if (image.url === null)
-      image.url =
-        "https://raw.githubusercontent.com/oscarsanchog/PI-drivers/main/server/src/assets/img/profileImage.png"
+    if (image.url === "") {
+      image.url = "https://raw.githubusercontent.com/oscarsanchog/PI-drivers/main/server/src/assets/img/profileImage.png"
+    }
 
     const [newDriver, created] = await Driver.findOrCreate({
       //Esto me repite drivers, pero no sé si está mal, porque qué pasa si el user quiere agregar drivers repetidos
       where: {
-        name:{forename, surname},
+        name: { forename, surname },
         description,
         image,
         nationality,
         dob,
-      }
+      },
     })
 
     /* const teamToAssociate = await Team.findByPk(teamsId)
@@ -57,7 +49,6 @@ module.exports = async (req, res) => {
     await newDriver.addTeams(teamsId) // Si decido hacer que esté relacionado con más de un team, debo poner adTeams
 
     res.status(200).json(newDriver)
-    
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
