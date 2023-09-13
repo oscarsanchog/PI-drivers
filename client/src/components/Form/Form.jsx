@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from 'react-router-dom'
-import { getTeams, getDrivers } from "../../redux/actions"
+
+import { getTeams, getDrivers, cleanDrivers, cleanDriversFiltered } from "../../redux/actions"
 import validation from '../validations/formValidations'
 import axios from "axios"
 import styles from './Form.module.css'
 
-const Form = ({ teamsOptions }) => {
+const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
 
   const teams = useSelector((state) => state.teams)
   const drivers = useSelector((state) => state.drivers)
@@ -140,19 +140,19 @@ const Form = ({ teamsOptions }) => {
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    
     //console.log(Object.keys(errors).length === 0);
     if(Object.keys(errors).length >= 1){
-      
+      event.preventDefault()
       window.alert('You are missing data or the data was introduced incorrectly')
 
       //useNavigate('detail/')
       return
     }
     window.alert('Created succesfully!')
-
     await axios.post("http://localhost:3001/drivers", newDriver)
-    && navigate('/home')
+    forCleaningDriversFiltered('cleanState', 'clearButton') 
+    getDrivers()    
   }
 
   

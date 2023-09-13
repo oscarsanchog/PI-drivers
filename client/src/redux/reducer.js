@@ -9,7 +9,8 @@ import {
   ORDER_BY_DOB,
   FILTER_BY_ORIGIN,
   FILTER_BY_TEAM,
-  GET_TEAMS
+  GET_TEAMS,
+  CLEAN_DRIVERS
 } from "./action-types"
 
 const initialState = {
@@ -56,6 +57,12 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         driversFiltered: [payload, ...state.driversFiltered],
+      }
+
+    case CLEAN_DRIVERS:
+      return {
+        ...state,
+        drivers: []
       }
     
     case CLEAN_DRIVERS_FILTERED:

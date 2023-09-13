@@ -14,10 +14,12 @@ const App = () => {
   const dispatch = useDispatch()
 
   const forCleaningDriversFiltered = (cleanState, filterFunction) => {
-    cleanState === 'cleanState' && dispatch(cleanDriversFiltered())
+    cleanState === "cleanState" && dispatch(cleanDriversFiltered())
 
-    if (filterFunction === "byName") document.getElementById("orderByDob").value = "orderByDob"
-    if (filterFunction === "byDob")  document.getElementById("orderByName").value = "orderByName"
+    if (filterFunction === "byName")
+      document.getElementById("orderByDob").value = "orderByDob"
+    if (filterFunction === "byDob")
+      document.getElementById("orderByName").value = "orderByName"
     if (filterFunction === "byOrigin") {
       document.getElementById("orderByName").value = "orderByName"
       document.getElementById("orderByDob").value = "orderByDob"
@@ -82,7 +84,15 @@ const App = () => {
           element={<Detail teamsFormat={teamsFormat} />}
         />
 
-        <Route path="/form" element={<Form teamsOptions={teamsOptions} />} />
+        <Route
+          path="/form"
+          element={
+            <Form
+              forCleaningDriversFiltered={forCleaningDriversFiltered}
+              teamsOptions={teamsOptions}
+            />
+          }
+        />
       </Routes>
     </div>
   )

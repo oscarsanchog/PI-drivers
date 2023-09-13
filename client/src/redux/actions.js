@@ -9,7 +9,8 @@ import {
   ORDER_BY_DOB,
   FILTER_BY_ORIGIN,
   FILTER_BY_TEAM,
-  GET_TEAMS
+  GET_TEAMS, 
+  CLEAN_DRIVERS
 } from "./action-types"
 
 import axios from "axios"
@@ -45,6 +46,10 @@ export const getDriverById = (id) => {
     const { data } = await axios(`${URL_SERVER}/${id}`)
     return dispatch({ type: GET_DRIVER_BY_ID, payload: data })
   }
+}
+
+export const cleanDrivers = () => {
+  return {type: CLEAN_DRIVERS }
 }
 
 export const cleanDriversFiltered = () => {
