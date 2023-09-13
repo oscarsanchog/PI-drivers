@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom"
 import axios from "axios"
 import styles from './SearchBar.module.css'
 
-const SearchBar = ({ forCleanDriversFiltered }) => {
+const SearchBar = ({ forCleaningDriversFiltered }) => {
   const [name, setName] = useState("")
   const { pathname } = useLocation()
   const dispatch = useDispatch()
@@ -51,8 +51,10 @@ const SearchBar = ({ forCleanDriversFiltered }) => {
   }
 
   const clearHandler = async () => {
-    forCleanDriversFiltered()
+    /* forCleanDriversFiltered() */
+    forCleaningDriversFiltered('cleanState', 'clearButton')
     setName("")
+    
   }
 
   return (

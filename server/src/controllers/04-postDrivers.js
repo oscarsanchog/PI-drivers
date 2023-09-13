@@ -40,12 +40,6 @@ module.exports = async (req, res) => {
         dob,
       },
     })
-
-    /* const teamToAssociate = await Team.findByPk(teamsId)
-
-    if (!teamToAssociate)
-      return res.status(404).json({ error: "Equipo no encontrado" }) */
-
     await newDriver.addTeams(teamsId) // Si decido hacer que esté relacionado con más de un team, debo poner adTeams
 
     res.status(200).json(newDriver)
