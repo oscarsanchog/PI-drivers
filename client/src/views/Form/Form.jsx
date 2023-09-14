@@ -2,13 +2,12 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { getTeams, getDrivers } from "../../redux/actions"
-import validation from '../validations/formValidations'
+import validation from '../../components/validations/formValidations'
 import axios from "axios"
 import styles from './Form.module.css'
 
 const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
   const dispatch = useDispatch()
-
 
   const teams = useSelector((state) => state.teams)
   const drivers = useSelector((state) => state.drivers)
@@ -28,7 +27,14 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
     teamsId: [],
   })
 
-  const [ errors, setErrors] = useState(newDriver)
+  const [ errors, setErrors ] = useState({
+    forename: true,
+    surname: true,
+    nationality: true,
+    dob: true,
+    team: true,
+    description: true
+  })
 
   useEffect(() => {
     teams.length === 0 && dispatch(getTeams())

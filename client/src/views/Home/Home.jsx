@@ -1,5 +1,5 @@
-import Filters from "../Filters/Filters"
-import Cards from "../Cards/Cards"
+import Filters from '../../components/Filters/Filters'
+import Cards from "../../components/Cards/Cards"
 import styles from './Home.module.css'
 
 

@@ -16,3 +16,4 @@ module.exports = async () => {
   
     uniqueTeams.forEach((team) =>  Team.findOrCreate({ where: { name: team } })) // Recorre el set y los agrega a la db
   }
+  
