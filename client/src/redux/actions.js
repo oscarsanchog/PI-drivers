@@ -10,7 +10,6 @@ import {
   FILTER_BY_ORIGIN,
   FILTER_BY_TEAM,
   GET_TEAMS, 
-  CLEAN_DRIVERS
 } from "./action-types"
 
 import axios from "axios"
@@ -36,8 +35,14 @@ export const cleanDetail = () => {
 
 export const getDriversByName = (name) => {
   return async (dispatch) => {
-    const { data } = await axios(`${URL_SERVER}/name?name=${name}`)
-    return dispatch({ type: GET_DRIVERS_BY_NAME, payload: data })
+    try {
+      const { data } = await axios(`${URL_SERVER}/name?name=${name}`)
+      return dispatch({ type: GET_DRIVERS_BY_NAME, payload: data })
+    } catch (error) {
+      window.alert(error.response.data.message)
+    }
+    
+    
   }
 }
 
@@ -46,10 +51,6 @@ export const getDriverById = (id) => {
     const { data } = await axios(`${URL_SERVER}/${id}`)
     return dispatch({ type: GET_DRIVER_BY_ID, payload: data })
   }
-}
-
-export const cleanDrivers = () => {
-  return {type: CLEAN_DRIVERS }
 }
 
 export const cleanDriversFiltered = () => {

@@ -9,4 +9,3 @@ export const ORDER_BY_DOB = 'ORDER_BY_DOB'
 export const FILTER_BY_ORIGIN = 'FILTER_BY_ORIGIN'
 export const FILTER_BY_TEAM = "FILTER_BY_TEAM"
 export const GET_TEAMS = 'GET_TEAMS'
-export const CLEAN_DRIVERS = 'CLEAN_DRIVERS'

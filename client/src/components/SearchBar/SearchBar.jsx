@@ -15,7 +15,7 @@ const SearchBar = ({ forCleaningDriversFiltered }) => {
   }
 
   const onSearch = (name) => {
-    dispatch(getDriversByName(name))
+      dispatch(getDriversByName(name))
   }
 
   const handleKeyDown = (event) => {

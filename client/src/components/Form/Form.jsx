@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { getTeams, getDrivers, cleanDrivers, cleanDriversFiltered } from "../../redux/actions"
+import { getTeams, getDrivers } from "../../redux/actions"
 import validation from '../validations/formValidations'
 import axios from "axios"
 import styles from './Form.module.css'
@@ -21,7 +21,7 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
     },
     description: "",
     image: {
-      url: "", //TODO Arreglar esto en el back, que si se envía como string vacío, cree una foto automáticamente
+      url: "",
     },
     nationality: "",
     dob: "",

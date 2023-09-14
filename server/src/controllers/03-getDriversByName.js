@@ -9,10 +9,9 @@ const { Op } = require("sequelize")
 // Es mejor extraer los nombres de la API al hacer la búsqueda y luego buscar el en el array que salga los nombres. Esto permitirá
 // usar el includes para buscar drivers con dos nombres o más, y también el bucsar nombres sin necesidad de ponerle acento en la
 // búsqueda.
-module.exports = async (req, res) => {
-  try {
-    const query = req.query.name
-    const name = query.charAt(0).toUpperCase() + query.slice(1).toLowerCase()
+module.exports = async (query) => {
+/*     const query = req.query.name
+ */    const name = query.charAt(0).toUpperCase() + query.slice(1).toLowerCase()
 
     // Database
 
@@ -41,13 +40,9 @@ module.exports = async (req, res) => {
     const driversFound = [...dbDrivers, ...apiDrivers].slice(0, 15)
 
     if (driversFound.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No se encontraron conductores con ese nombre." })
+      throw Error("No drivers with that name were found.")
     }
 
-    res.status(200).json(driversFound)
-  } catch (error) {
-    res.status(500).json({ error: error.message })
-  }
+    return driversFound
+
 }
