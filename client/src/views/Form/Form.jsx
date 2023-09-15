@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { getTeams, getDrivers, postDriver, getDetail } from "../../redux/actions"
 import validation from '../../components/validations/formValidations'
-import axios from "axios"
 import styles from './Form.module.css'
 import { useNavigate } from "react-router-dom"
 
@@ -160,21 +159,13 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
       return
     }
     
-    //await axios.post("http://localhost:3001/drivers", newDriver)
-
-/*     forCleaningDriversFiltered('cleanState', 'clearButton') 
- */  
-
 
 dispatch( postDriver(newDriver));
 window.alert('Created succesfully!');
 dispatch(getDrivers());
 
-//dispatch(getDetail(driverDetail.id));
 navigate(`/detail/${driverDetail.id}`)  ;
 
-//forCleaningDriversFiltered('cleanState', 'clearButton')
-    //dispatch(getDrivers()) 
   }
 
 
