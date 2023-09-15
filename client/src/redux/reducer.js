@@ -10,6 +10,7 @@ import {
   FILTER_BY_ORIGIN,
   FILTER_BY_TEAM,
   GET_TEAMS,
+  POST_DRIVER
 } from "./action-types"
 
 const initialState = {
@@ -18,9 +19,6 @@ const initialState = {
   driversFiltered: [],
   teams: []
 }
-
-
-
 
 const reducer = (state = initialState, { type, payload }) => {
   // const removeFav = state.allFavsCharacters.filter((fav) => fav.id != payload)
@@ -126,6 +124,12 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         teams: payload,
+      }
+
+    case POST_DRIVER:
+      return {
+        ...state,
+        driverDetail: payload
       }
 
     default:

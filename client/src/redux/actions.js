@@ -10,17 +10,21 @@ import {
   FILTER_BY_ORIGIN,
   FILTER_BY_TEAM,
   GET_TEAMS, 
+  POST_DRIVER,
 } from "./action-types"
 
 import axios from "axios"
 const URL_SERVER = "http://localhost:3001/drivers"
 
+//TODO Cambiar a try catch
 export const getDrivers = () => {
   return async (dispatch) => {
     const { data } = await axios(URL_SERVER)
     return dispatch({ type: GET_DRIVERS, payload: data })
   }
 }
+
+//TODO Cambiar a try catch
 
 export const getDetail = (id) => {
   return async (dispatch) => {
@@ -33,6 +37,8 @@ export const cleanDetail = () => {
   return { type: CLEAN_DETAIL }
 }
 
+//TODO Cambiar a try catch
+
 export const getDriversByName = (name) => {
   return async (dispatch) => {
     try {
@@ -41,10 +47,10 @@ export const getDriversByName = (name) => {
     } catch (error) {
       window.alert(error.response.data.message)
     }
-    
-    
   }
 }
+
+//TODO Cambiar a try catch
 
 export const getDriverById = (id) => {
   return async (dispatch) => {
@@ -74,6 +80,7 @@ export const filterByTeam = (team) => {
   return { type: FILTER_BY_TEAM, payload: team}
 }
 
+//TODO Cambiar a try catch
 export const getTeams = () => {
   return async (dispatch) => {
     const { data } = await axios(`${URL_SERVER}/teams`)
@@ -81,3 +88,25 @@ export const getTeams = () => {
 
   }
 }
+
+export const postDriver = (newDriver) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(URL_SERVER, newDriver)
+      //console.log(data.id);
+
+      return dispatch({type: POST_DRIVER, payload: data})
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+}
+
+/* export const getDrivers = (newDriver) => {
+  return async (dispatch) => {
+    const { data } = await axios(URL_SERVER)
+    return dispatch({ type: GET_DRIVERS, payload: data })
+  }
+} */

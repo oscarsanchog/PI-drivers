@@ -7,7 +7,7 @@ import { Provider } from "react-redux"
 import "./styles/index.css"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <React.StrictMode> {/* Lo descomento para que los console logs no se ejecuten muchas veces. */}
     <Provider store={store}>
       <BrowserRouter>
         <App />

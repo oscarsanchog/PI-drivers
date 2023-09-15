@@ -11,8 +11,10 @@ const Detail = ({ teamsFormat }) => {
   const dispatch = useDispatch()
   const { id } = useParams()
 
+  //console.log(id);
+
   useEffect(() => {
-    dispatch(getDetail(id))
+    id !== 'undefined' && dispatch(getDetail(id))
     return () => dispatch(cleanDetail())
   }, [id])
 

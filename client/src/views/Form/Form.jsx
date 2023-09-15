@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { getTeams, getDrivers } from "../../redux/actions"
+import { getTeams, getDrivers, postDriver, getDetail } from "../../redux/actions"
 import validation from '../../components/validations/formValidations'
 import axios from "axios"
 import styles from './Form.module.css'
+import { useNavigate } from "react-router-dom"
 
 const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const teams = useSelector((state) => state.teams)
   const drivers = useSelector((state) => state.drivers)
+  const driverDetail = useSelector(state => state.driverDetail)
+  
 
   const [count, setCount] = useState(1)
   const [newDriver, setNewDriver] = useState({
@@ -28,12 +32,12 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
   })
 
   const [ errors, setErrors ] = useState({
-    forename: true,
-    surname: true,
-    nationality: true,
-    dob: true,
-    team: true,
-    description: true
+    forename: 'It must not be empty',
+    surname: 'It must not be empty',
+    nationality: 'You must select a nationality',
+    dob: 'You must introduce the birthdate',
+    team: 'You must introduce a team',
+    description: 'You must introduce a description'
   })
 
   useEffect(() => {
@@ -145,8 +149,8 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
     }
   }
 
-  const handleSubmit = async (event) => {
-    
+  const handleSubmit =  (event) => {
+    //event.preventDefault()
     //console.log(Object.keys(errors).length === 0);
     if(Object.keys(errors).length >= 1){
       event.preventDefault()
@@ -155,15 +159,31 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
       //useNavigate('detail/')
       return
     }
-    window.alert('Created succesfully!')
-    await axios.post("http://localhost:3001/drivers", newDriver)
-    forCleaningDriversFiltered('cleanState', 'clearButton') 
-    getDrivers()    
+    
+    //await axios.post("http://localhost:3001/drivers", newDriver)
+
+/*     forCleaningDriversFiltered('cleanState', 'clearButton') 
+ */  
+
+
+dispatch( postDriver(newDriver));
+window.alert('Created succesfully!');
+dispatch(getDrivers());
+
+//dispatch(getDetail(driverDetail.id));
+navigate(`/detail/${driverDetail.id}`)  ;
+
+//forCleaningDriversFiltered('cleanState', 'clearButton')
+    //dispatch(getDrivers()) 
   }
+
+
+ 
 
   
   return (
     <section className={styles.formContainer}>
+     
       <form onSubmit={handleSubmit} className={styles.form}>
         
         <div>
