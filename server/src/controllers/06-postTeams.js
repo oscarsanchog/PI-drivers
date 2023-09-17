@@ -1,10 +1,8 @@
-const axios = require("axios")
-const { Team } = require("../db")
-
-const URL_API = require("../utils/url")
+const {fetchAPIDrivers} = require('../services/getAPIData')
+const { createTeams} = require('../services/getDBData')
 
 module.exports = async () => {
-    const { data: apiDrivers } = await axios(URL_API)
+    const apiDrivers = await fetchAPIDrivers()
     const uniqueTeams = new Set()
   
     apiDrivers
@@ -14,6 +12,6 @@ module.exports = async () => {
       .map((teamString) => teamString.trim()) // normalizo cada string del array para que no haya espacios ni adelante ni atras
       .forEach(team => uniqueTeams.add(team)) // los agrego al set y elimino los repetidos
   
-    uniqueTeams.forEach((team) =>  Team.findOrCreate({ where: { name: team } })) // Recorre el set y los agrega a la db
+    uniqueTeams.forEach((team) =>  createTeams(team)) // Recorre el set y los agrega a la db
   }
   

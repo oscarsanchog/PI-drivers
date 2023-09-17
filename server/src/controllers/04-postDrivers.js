@@ -1,5 +1,5 @@
-const { Driver, Team } = require("../db")
 const { postTeams } = require("../controllers/05-getTeams")
+const { createDriver, fetchDBTeams } = require('../services/getDBData')
 
 module.exports = async (name, description, image, nationality, dob, teamsId) => {
   if (
@@ -19,7 +19,7 @@ module.exports = async (name, description, image, nationality, dob, teamsId) => 
       name.plainSurname.charAt(0).toUpperCase() +
       name.plainSurname.slice(1).toLowerCase()
 
-    const dbTeams = await Team.findAll()
+    const dbTeams = await fetchDBTeams()
 
     if (!dbTeams.length) await postTeams()
 
@@ -27,18 +27,8 @@ module.exports = async (name, description, image, nationality, dob, teamsId) => 
       image.url = "https://raw.githubusercontent.com/oscarsanchog/PI-drivers/main/server/src/assets/img/profileImage.png"
     }
 
-    const [newDriver, created] = await Driver.findOrCreate({
-      //Esto me repite drivers, pero no sé si está mal, porque qué pasa si el user quiere agregar drivers repetidos
-      where: {
-        name: { forename, surname },
-        description,
-        image,
-        nationality,
-        dob,
-      },
-    })
-    await newDriver.addTeams(teamsId)
-
+    const newDriver = createDriver(forename, surname, description, image, nationality, dob, teamsId)
+    
     return newDriver
 }
 

@@ -11,16 +11,23 @@ import {
   FILTER_BY_TEAM,
   GET_TEAMS,
   POST_DRIVER,
+  ERROR,
+  CLEAN_ERROR
 } from "./action-types"
 
-import axios from "axios"
-const URL_SERVER = "http://localhost:3001/drivers"
+import {
+  fetchDriverByName,
+  fetchDrivers,
+  fetchDriversDetail,
+  fetchPostDriver,
+  fetchTeams,
+} from "../services/getData"
 
 export const getDrivers = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios(URL_SERVER)
-      return dispatch({ type: GET_DRIVERS, payload: data })
+      const drivers = await fetchDrivers()
+      dispatch({ type: GET_DRIVERS, payload: drivers })
     } catch (error) {
       console.log(error)
     }
@@ -30,8 +37,8 @@ export const getDrivers = () => {
 export const getDetail = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios(`${URL_SERVER}/${id}`)
-      return dispatch({ type: GET_DETAIL, payload: data })
+      const driversDetail = await fetchDriversDetail(id)
+      dispatch({ type: GET_DETAIL, payload: driversDetail })
     } catch (error) {
       console.log(error)
     }
@@ -45,10 +52,10 @@ export const cleanDetail = () => {
 export const getDriversByName = (name) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios(`${URL_SERVER}/name?name=${name}`)
-      return dispatch({ type: GET_DRIVERS_BY_NAME, payload: data })
+      const driverByName = await fetchDriverByName(name)
+      dispatch({ type: GET_DRIVERS_BY_NAME, payload: driverByName })
     } catch (error) {
-      window.alert(error.response.data.message)
+      dispatch({ type: ERROR, payload: error.response.data.error })
     }
   }
 }
@@ -56,8 +63,8 @@ export const getDriversByName = (name) => {
 export const getDriverById = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios(`${URL_SERVER}/${id}`)
-      return dispatch({ type: GET_DRIVER_BY_ID, payload: data })
+      const driver = await fetchDriversDetail(id)
+      return dispatch({ type: GET_DRIVER_BY_ID, payload: driver })
     } catch (error) {
       console.log(error)
     }
@@ -88,8 +95,8 @@ export const filterByTeam = (team) => {
 export const getTeams = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios(`${URL_SERVER}/teams`)
-      return dispatch({ type: GET_TEAMS, payload: data })
+      const teams = await fetchTeams()
+       dispatch({ type: GET_TEAMS, payload: teams })
     } catch (error) {
       console.log(error)
     }
@@ -99,17 +106,14 @@ export const getTeams = () => {
 export const postDriver = (newDriver) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(URL_SERVER, newDriver)
-      return dispatch({ type: POST_DRIVER, payload: data })
+      const newDriverPosted = await fetchPostDriver(newDriver)
+       dispatch({ type: POST_DRIVER, payload: newDriverPosted })
     } catch (error) {
       console.log(error)
     }
   }
 }
 
-/* export const getDrivers = (newDriver) => {
-  return async (dispatch) => {
-    const { data } = await axios(URL_SERVER)
-    return dispatch({ type: GET_DRIVERS, payload: data })
-  }
-} */
+export const cleanError = () => {
+  return { type: CLEAN_ERROR }
+}

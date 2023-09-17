@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { getTeams, getDrivers, postDriver, getDetail } from "../../redux/actions"
-import validation from '../../components/validations/formValidations'
-import styles from './Form.module.css'
+import {
+  getTeams,
+  getDrivers,
+  postDriver,
+  getDetail,
+} from "../../redux/actions"
+import validation from "../../components/validations/formValidations"
+import styles from "./Form.module.css"
 import { useNavigate } from "react-router-dom"
 
 const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
@@ -12,9 +17,9 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
 
   const teams = useSelector((state) => state.teams)
   const drivers = useSelector((state) => state.drivers)
-  const driverDetail = useSelector(state => state.driverDetail)
-  
+  const driverDetail = useSelector((state) => state.driverDetail)
 
+  
   const [count, setCount] = useState(1)
   const [newDriver, setNewDriver] = useState({
     name: {
@@ -30,19 +35,19 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
     teamsId: [],
   })
 
-  const [ errors, setErrors ] = useState({
-    forename: 'It must not be empty',
-    surname: 'It must not be empty',
-    nationality: 'You must select a nationality',
-    dob: 'You must introduce the birthdate',
-    team: 'You must introduce a team',
-    description: 'You must introduce a description'
+  const [errors, setErrors] = useState({
+    forename: "It must not be empty",
+    surname: "It must not be empty",
+    nationality: "You must select a nationality",
+    dob: "You must introduce the birthdate",
+    team: "You must introduce a team",
+    description: "You must introduce a description",
   })
 
   useEffect(() => {
     teams.length === 0 && dispatch(getTeams())
     drivers.length === 0 && dispatch(getDrivers())
-  }, [dispatch, teams, drivers])
+  }, [dispatch, teams, drivers, driverDetail])
 
   const uniqueNationalities = new Set()
   const filteredNationalities = drivers.filter((driver) => {
@@ -73,24 +78,26 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
 
   const handleChange = (event) => {
     const { id, value } = event.target
-    
+
     if (id === "plainForename" || id === "plainSurname") {
       setNewDriver({
+        ...newDriver,
+        name: {
+          ...newDriver.name,
+          [id]: value,
+        },
+      })
+
+      setErrors(
+        validation({
           ...newDriver,
           name: {
             ...newDriver.name,
             [id]: value,
           },
         })
-
-      setErrors(validation({
-        ...newDriver,
-          name: {
-            ...newDriver.name,
-            [id]: value,
-          },
-      }))
-    } 
+      )
+    }
 
     if (id === "description") {
       setNewDriver({
@@ -98,10 +105,12 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
         [id]: value,
       })
 
-      setErrors(validation({
-        ...newDriver,
-        [id]: value
-      }))
+      setErrors(
+        validation({
+          ...newDriver,
+          [id]: value,
+        })
+      )
     }
 
     id === "url" &&
@@ -113,72 +122,84 @@ const Form = ({ teamsOptions, forCleaningDriversFiltered }) => {
         },
       })
 
-    if(id === "nationality") {
+    if (id === "nationality") {
       setNewDriver({
         ...newDriver,
         [id]: value,
       })
 
-      setErrors(validation({
-        ...newDriver,
-        [id]: value
-      }))
+      setErrors(
+        validation({
+          ...newDriver,
+          [id]: value,
+        })
+      )
     }
 
-    if(id === "dob") {
+    if (id === "dob") {
       setNewDriver({
         ...newDriver,
         [id]: value,
       })
 
-      setErrors(validation({
-        ...newDriver,
-        [id]: value
-      }))
+      setErrors(
+        validation({
+          ...newDriver,
+          [id]: value,
+        })
+      )
     }
 
     if (id.includes("teams")) {
       let teamIndex = id.split("").pop()
-      !newDriver.teamsId.includes(value) && (newDriver.teamsId[teamIndex] = value)
+      !newDriver.teamsId.includes(value) &&
+        (newDriver.teamsId[teamIndex] = value)
 
-      setErrors(validation({
-        ...newDriver,
-        [id]: value
-      }))
+      setErrors(
+        validation({
+          ...newDriver,
+          [id]: value,
+        })
+      )
     }
   }
 
-  const handleSubmit =  (event) => {
+  const handleSubmit = async (event) => {
     //event.preventDefault()
     //console.log(Object.keys(errors).length === 0);
-    if(Object.keys(errors).length >= 1){
+    if (Object.keys(errors).length >= 1) {
       event.preventDefault()
-      window.alert('You are missing data or the data was introduced incorrectly')
+      window.alert(
+        "You are missing data or the data was introduced incorrectly"
+      )
 
       //useNavigate('detail/')
       return
     }
+    //event.preventDefault()
+    dispatch( postDriver(newDriver));
+    window.alert("Created succesfully!");
+    dispatch( getDrivers());
     
-
-dispatch( postDriver(newDriver));
-window.alert('Created succesfully!');
-dispatch(getDrivers());
-
-navigate(`/detail/${driverDetail.id}`)  ;
-
+    //dispatch( getDetail(driverDetail.id))
+    //console.log(driverDetail);
+    navigate(`/detail/${driverDetail.id}`);
+    //console.log(driverDetail.id);
   }
 
-
- 
-
-  
   return (
     <section className={styles.formContainer}>
-     
       <form onSubmit={handleSubmit} className={styles.form}>
-        
         <div>
-          <label htmlFor="forename" title={errors.forename? errors.forename: "It must not be empty and not have any symbols"}>Forename: </label>
+          <label
+            htmlFor="forename"
+            title={
+              errors.forename
+                ? errors.forename
+                : "It must not be empty and not have any symbols"
+            }>
+            Forename:{" "}
+          </label>
           <input
             required
             value={newDriver.name.plainForename}
@@ -186,15 +207,34 @@ navigate(`/detail/${driverDetail.id}`)  ;
             placeholder="Driver forename"
             id="plainForename"
             type="text"
-            title={errors.forename? errors.forename: "It must not be empty and not have any symbols"}
+            title={
+              errors.forename
+                ? errors.forename
+                : "It must not be empty and not have any symbols"
+            }
             autoFocus
             /* pattern={/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]*$/} */
           />
-          {errors.forename && <span title={errors.forename && errors.forename} style={{color: 'red'}}> *</span>}
+          {errors.forename && (
+            <span
+              title={errors.forename && errors.forename}
+              style={{ color: "red" }}>
+              {" "}
+              *
+            </span>
+          )}
         </div>
 
         <div>
-          <label title={errors.surname? errors.surname: "It must not be empty and not have any symbols"} htmlFor="surname">Surname: </label>
+          <label
+            title={
+              errors.surname
+                ? errors.surname
+                : "It must not be empty and not have any symbols"
+            }
+            htmlFor="surname">
+            Surname:{" "}
+          </label>
           <input
             required
             value={newDriver.name.plainSurname}
@@ -202,30 +242,61 @@ navigate(`/detail/${driverDetail.id}`)  ;
             type="text"
             placeholder="Driver surname"
             id="plainSurname"
-            title={errors.surname? errors.surname: "It must not be empty and not have any symbols"}
+            title={
+              errors.surname
+                ? errors.surname
+                : "It must not be empty and not have any symbols"
+            }
           />
-          {errors.surname && <span title={errors.surname && errors.surname} style={{color: 'red'}}> *</span>}
+          {errors.surname && (
+            <span
+              title={errors.surname && errors.surname}
+              style={{ color: "red" }}>
+              {" "}
+              *
+            </span>
+          )}
         </div>
 
         <div>
-          <label title={errors.nationality? errors.nationality: 'You must select a nationality'} htmlFor="nationality">Nationality: </label>
+          <label
+            title={
+              errors.nationality
+                ? errors.nationality
+                : "You must select a nationality"
+            }
+            htmlFor="nationality">
+            Nationality:{" "}
+          </label>
           <select
             required
             onChange={handleChange}
             value={newDriver.nationality}
             name=""
             id="nationality" /* defaultValue="selectNationality" */
-            title={errors.nationality? errors.nationality: 'You must select a nationality'}
-          >
+            title={
+              errors.nationality
+                ? errors.nationality
+                : "You must select a nationality"
+            }>
             <option value="selectNationality">Select nationality</option>
             {nationalityOption()}
             {/* <option value="other">Other</option> */}
           </select>
-          {errors.nationality && <span title={errors.nationality && errors.nationality} style={{color: 'red'}}> *</span>}
+          {errors.nationality && (
+            <span
+              title={errors.nationality && errors.nationality}
+              style={{ color: "red" }}>
+              {" "}
+              *
+            </span>
+          )}
         </div>
 
         <div>
-          <label title="Paste your url" htmlFor="url">Image: </label>
+          <label title="Paste your url" htmlFor="url">
+            Image:{" "}
+          </label>
           <input
             title="Paste your url"
             value={newDriver.image.url}
@@ -238,23 +309,46 @@ navigate(`/detail/${driverDetail.id}`)  ;
         </div>
 
         <div>
-          <label title={errors.dob? errors.dob: 'You must introduce the birthdate'} htmlFor="dob">Birthdate: </label>
+          <label
+            title={errors.dob ? errors.dob : "You must introduce the birthdate"}
+            htmlFor="dob">
+            Birthdate:{" "}
+          </label>
           <input
             required
             type="date"
             id="dob"
             value={newDriver.dob}
             onChange={handleChange}
-            title={errors.dob? errors.dob: 'You must introduce the birthdate'}
+            title={errors.dob ? errors.dob : "You must introduce the birthdate"}
           />
-          {errors.dob && <span title={errors.dob && errors.dob} style={{color: 'red'}}> *</span>}
+          {errors.dob && (
+            <span title={errors.dob && errors.dob} style={{ color: "red" }}>
+              {" "}
+              *
+            </span>
+          )}
         </div>
 
         <div>
           <div>
-          <label title={errors.description? errors.description: 'You must introduce a description'} htmlFor="description">Description</label>
-          {errors.description && <span title={errors.description && errors.description} style={{color: 'red'}}> *</span>}
-
+            <label
+              title={
+                errors.description
+                  ? errors.description
+                  : "You must introduce a description"
+              }
+              htmlFor="description">
+              Description
+            </label>
+            {errors.description && (
+              <span
+                title={errors.description && errors.description}
+                style={{ color: "red" }}>
+                {" "}
+                *
+              </span>
+            )}
           </div>
           <textarea
             className={styles.description}
@@ -263,29 +357,44 @@ navigate(`/detail/${driverDetail.id}`)  ;
             onChange={handleChange}
             name="description"
             id="description"
-            title={errors.description? errors.description: 'You must introduce a description'}
+            title={
+              errors.description
+                ? errors.description
+                : "You must introduce a description"
+            }
           />
         </div>
 
         <div className={styles.teams}>
           <div>
-
-          <label title={errors.team? errors.team: 'You must introduce a team'} htmlFor={`teams${count - 1}`}>Teams</label>
-          {errors.team && <span title={errors.team && errors.team} style={{color: 'red'}}> *</span>}
+            <label
+              title={errors.team ? errors.team : "You must introduce a team"}
+              htmlFor={`teams${count - 1}`}>
+              Teams
+            </label>
+            {errors.team && (
+              <span title={errors.team && errors.team} style={{ color: "red" }}>
+                {" "}
+                *
+              </span>
+            )}
           </div>
 
-          {[...Array(count)].map((_, i) => ( // Crear los selectores usando el contador
+          {[...Array(count)].map(
+            (
+              _,
+              i // Crear los selectores usando el contador
+            ) => (
               <select
                 required
                 key={i}
                 name={`teams${i}`}
                 id={`teams${i}`}
                 defaultValue="selectTeams"
-                title={errors.team? errors.team: 'You must introduce a team'}
-                onChange={handleChange}
-              >
+                title={errors.team ? errors.team : "You must introduce a team"}
+                onChange={handleChange}>
                 <option value="selectTeams">Select teams</option>
-                {teamsOptions(teams, 'id')}
+                {teamsOptions(teams, "id")}
               </select>
             )
           )}
@@ -303,7 +412,9 @@ navigate(`/detail/${driverDetail.id}`)  ;
           </button>
         </div>
 
-        <button disabled={Object.keys(errors).length >= 1}>Create driver</button>
+        <button disabled={Object.keys(errors).length >= 1}>
+          Create driver
+        </button>
       </form>
     </section>
   )

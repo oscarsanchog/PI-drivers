@@ -6,12 +6,15 @@ import Nav from "./components/Nav/Nav"
 import Home from "./views/Home/Home"
 import Detail from "./views/Detail/Detail"
 import Form from "./views/Form/Form"
-import { useDispatch } from "react-redux"
-import { cleanDriversFiltered } from "./redux/actions"
+import { useDispatch, useSelector } from "react-redux"
+import { cleanDriversFiltered, cleanError } from "./redux/actions"
 
 const App = () => {
   const { pathname } = useLocation()
   const dispatch = useDispatch()
+  const error = useSelector((state) => state.error)
+
+  error.length && dispatch(cleanError()) && window.alert(error)
 
   const forCleaningDriversFiltered = (cleanState, filterFunction) => {
     cleanState === "cleanState" && dispatch(cleanDriversFiltered())

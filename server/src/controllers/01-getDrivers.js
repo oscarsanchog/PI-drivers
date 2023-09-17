@@ -1,20 +1,9 @@
-const axios = require("axios")
-const { Driver, Team } = require("../db")
-const URL_API = require("../utils/url")
+const { fetchDBDrivers } = require('../services/getDBData')
+const { fetchAPIDrivers } = require('../services/getAPIData')
 
 module.exports = async () => {
-  const dbDrivers = await Driver.findAll({
-    include: {
-      // Si requiro traer Drivers con más de 1 modelo, esto tiene que ser un array, y los modelos dentro en forma de obj
-      model: Team,
-      attributes: ["name"],
-      through: {
-        attributes: [],
-      },
-    },
-  })
-
-  let { data: apiDrivers } = await axios(URL_API)
+  const dbDrivers = await fetchDBDrivers()
+  let apiDrivers = await fetchAPIDrivers()
 
   apiDrivers.forEach((driver) => {
     if (driver.image.url === "") {

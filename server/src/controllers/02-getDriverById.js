@@ -1,18 +1,13 @@
-const axios = require("axios")
-const { Driver, Team } = require("../db")
-const URL_API = require("../utils/url")
+const { fetchAPIDriversByID } = require('../services/getAPIData')
+const { fetchDBDriversById } = require('../services/getDBData')
 
 module.exports = async (id) => {
-  /*   const { id } = req.params
-   */ const numberRegex = /^[0-9]+$/ // Verificador de números
-
-  /* if (numberRegex.test(id)) { */
   if (!isNaN(id)) { // Verifica que id sea número para hacer peticion api
-    const apiDriversResponse = await axios(`${URL_API}/${id}`)
+    const apiDriversResponse = await fetchAPIDriversByID(id)
 
-    if (apiDriversResponse.data.id) {
+    if (apiDriversResponse.id) {
       let { id, name, description, image, nationality, dob, teams } =
-        apiDriversResponse.data
+        apiDriversResponse
       if (image.url === "")
         image.url =
           "https://raw.githubusercontent.com/oscarsanchog/PI-drivers/main/server/src/assets/img/profileImage.png"
@@ -31,15 +26,7 @@ module.exports = async (id) => {
     }
   }
 
-  const dbDriver = await Driver.findByPk(id, {
-    include: {// join
-      model: Team,
-      attributes: ["name"],
-      through: {
-        attributes: [],
-      },
-    },
-  })
+  const dbDriver = await fetchDBDriversById(id)
 
   if (dbDriver) return dbDriver
 
