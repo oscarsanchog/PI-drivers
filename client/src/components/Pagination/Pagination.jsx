@@ -1,5 +1,6 @@
 import { useState } from "react"
-import styles from './Pagination.module.css'
+import {IoMdSkipBackward, IoMdSkipForward} from 'react-icons/io'
+import styles from "./Pagination.module.css"
 
 const Pagination = ({ page, setPage, numberOfPages }) => {
   const [input, setInput] = useState(1)
@@ -23,13 +24,12 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
         setPage(1)
         setInput(1)
         return
-
       } else if (requestedPage > numberOfPages) {
         setInput(numberOfPages)
         setPage(numberOfPages)
         return
       }
-      
+
       setPage(requestedPage)
     }
   }
@@ -40,21 +40,28 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
 
   const handleOnClick = () => {
     setInputAux(input)
-    setInput('')
+    setInput("")
   }
-  
+
   const handleBlur = () => {
-    if(input === '') setInput(inputAux)
+    if (input === "") setInput(inputAux)
   }
 
   const handleOnKeyDown = (event) => {
-    event.key === 'ArrowLeft' && document.getElementById('arrowLeft').click()
-    event.key === 'ArrowRight' && document.getElementById('arrowRight').click()
+    event.key === "ArrowLeft" && document.getElementById("arrowLeft").click()
+    event.key === "ArrowRight" && document.getElementById("arrowRight").click()
   }
 
   return (
     <div className={styles.paginationContainer}>
-      <button id="arrowLeft" onKeyDown={handleOnKeyDown} className={styles.rightButton} disabled={page <= 1} onClick={previousPage}>◀️</button>
+      <button
+        id="arrowLeft"
+        onKeyDown={handleOnKeyDown}
+        className={styles.rightButton}
+        disabled={page <= 1}
+        onClick={previousPage}>
+        <IoMdSkipBackward/>
+      </button>
 
       <input
         type="text"
@@ -68,7 +75,14 @@ const Pagination = ({ page, setPage, numberOfPages }) => {
 
       <span>of {numberOfPages}</span>
 
-      <button id="arrowRight" onKeyDown={handleOnKeyDown} className={styles.leftButton} disabled={page >= numberOfPages} onClick={nextPage}>▶️</button>
+      <button
+        id="arrowRight"
+        onKeyDown={handleOnKeyDown}
+        className={styles.leftButton}
+        disabled={page >= numberOfPages}
+        onClick={nextPage}>
+        <IoMdSkipForward/>
+      </button>
     </div>
   )
 }

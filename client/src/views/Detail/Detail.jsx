@@ -1,24 +1,28 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
-import { useEffect } from "react"
+import { useParams  } from "react-router-dom"
+import { useEffect, useState } from "react"
 import { getDetail, cleanDetail } from "../../redux/actions"
 //import { teamsFormat } from "../../utils/teamsFormat"
 import styles from "./Detail.module.css"
 
 const Detail = ({ teamsFormat }) => {
-  const driver = useSelector((state) => state.driverDetail)
-  const { image, name, nationality, description, dob, teams } = driver
+  const driverDetail = useSelector((state) => state.driverDetail)
+  const { image, name, nationality, description, dob, teams } = driverDetail
   const dispatch = useDispatch()
   const { id } = useParams()
+  
+  //driverDetail.id && dispatch(getDetail(driverDetail.id))
 
   useEffect(() => {
-    dispatch(getDetail(id))
+    //console.log(driverID);
+    if(id !== 'undefined') dispatch(getDetail(id))
+    //driverDetail.id && dispatch(getDetail(driverDetail.id))
     return () => dispatch(cleanDetail())
-  }, [id])
+}, [])
 
-  return (
-    <div className={styles.detailContainer}>
-      {driver.id && (
+return (
+  <div className={styles.detailContainer}>
+      {driverDetail.id && (
         <section className={styles.detail}>
           <img
             className={styles.detailImage}

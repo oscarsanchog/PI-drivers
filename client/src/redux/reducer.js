@@ -10,23 +10,22 @@ import {
   FILTER_BY_ORIGIN,
   FILTER_BY_TEAM,
   GET_TEAMS,
-  CLEAN_DRIVERS
+  POST_DRIVER,
+  ERROR,
+  CLEAN_ERROR
 } from "./action-types"
 
 const initialState = {
   drivers: [],
   driverDetail: {},
   driversFiltered: [],
-  /* filteredByOrigin: [], */
-  teams: []
+  teams: [],
+  error: ''
 }
-
-
-
 
 const reducer = (state = initialState, { type, payload }) => {
   // const removeFav = state.allFavsCharacters.filter((fav) => fav.id != payload)
-
+  console.log('reducer', type);
   switch (type) {
     case GET_DRIVERS:
       return {
@@ -57,12 +56,6 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         driversFiltered: [payload, ...state.driversFiltered],
-      }
-
-    case CLEAN_DRIVERS:
-      return {
-        ...state,
-        drivers: []
       }
     
     case CLEAN_DRIVERS_FILTERED:
@@ -134,6 +127,24 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         teams: payload,
+      }
+
+    case POST_DRIVER:
+      return {
+        ...state,
+        driverDetail: payload
+      }
+
+    case ERROR:
+      return {
+        ...state,
+        error: payload
+      }
+    
+    case CLEAN_ERROR:
+      return {
+        ...state,
+        error: ''
       }
 
     default:

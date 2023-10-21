@@ -1,17 +1,20 @@
 import { Route, Routes, useLocation } from "react-router-dom"
 import "./styles/App.css"
 
-import LandingPage from "./components/LandingPage/LandingPage"
+import LandingPage from "./views/LandingPage/LandingPage"
 import Nav from "./components/Nav/Nav"
-import Home from "./components/Home/Home"
-import Detail from "./components/Detail/Detail"
-import Form from "./components/Form/Form"
-import { useDispatch } from "react-redux"
-import { cleanDriversFiltered } from "./redux/actions"
+import Home from "./views/Home/Home"
+import Detail from "./views/Detail/Detail"
+import Form from "./views/Form/Form"
+import { useDispatch, useSelector } from "react-redux"
+import { cleanDriversFiltered, cleanError } from "./redux/actions"
 
 const App = () => {
   const { pathname } = useLocation()
   const dispatch = useDispatch()
+  const error = useSelector((state) => state.error)
+
+  error.length && dispatch(cleanError()) && window.alert(error)
 
   const forCleaningDriversFiltered = (cleanState, filterFunction) => {
     cleanState === "cleanState" && dispatch(cleanDriversFiltered())
@@ -43,7 +46,7 @@ const App = () => {
 
     return !isNaN(id) // si el id es un numero, es un driver de la API
       ? teams?.replace(teamStringFormat, ", ") // Para separar 'team, team' cuando no tenga tal formato en la API
-      : teams.map((team) => team.name).join(", ") // Mapea en su prop name al array de los teams de los drivers de la db y luego los transforma en string para renderizarlos
+      : teams?.map((team) => team.name).join(", ") // Mapea en su prop name al array de los teams de los drivers de la db y luego los transforma en string para renderizarlos
   }
 
   const teamsOptions = (teams, prop) => {
@@ -66,7 +69,7 @@ const App = () => {
       )}
 
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route exact path="/" element={<LandingPage />} />
 
         <Route
           path="/home"
