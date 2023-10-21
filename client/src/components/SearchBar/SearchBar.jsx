@@ -1,9 +1,19 @@
 import { useDispatch } from "react-redux"
-import { getDriversByName, getDriverById, getDrivers, cleanDriversFiltered } from "../../redux/actions"
+import {
+  getDriversByName,
+  getDriverById,
+  getDrivers,
+  cleanDriversFiltered,
+} from "../../redux/actions"
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
 import axios from "axios"
-import styles from './SearchBar.module.css'
+
+import { BiSearchAlt2 } from 'react-icons/bi'
+import { LiaDiceD6Solid } from 'react-icons/lia'
+import { LuEraser } from 'react-icons/lu'
+
+import styles from "./SearchBar.module.css"
 
 const SearchBar = ({ forCleaningDriversFiltered }) => {
   const [name, setName] = useState("")
@@ -15,7 +25,7 @@ const SearchBar = ({ forCleaningDriversFiltered }) => {
   }
 
   const onSearch = (name) => {
-      dispatch(getDriversByName(name))
+    dispatch(getDriversByName(name))
   }
 
   const handleKeyDown = (event) => {
@@ -37,11 +47,11 @@ const SearchBar = ({ forCleaningDriversFiltered }) => {
 
   const idArray = []
   const randomHandler = async () => {
-    const URL_SERVER = 'http://localhost:3001/drivers'
+    const URL_SERVER = "http://localhost:3001/drivers"
 
-    if(idArray.length === 0){
+    if (idArray.length === 0) {
       const { data } = await axios(URL_SERVER)
-      data.forEach(driver => idArray.push(driver.id))
+      data.forEach((driver) => idArray.push(driver.id))
     }
     const randomIndex = Math.floor(Math.random() * idArray.length)
     const randomId = idArray[randomIndex]
@@ -52,9 +62,8 @@ const SearchBar = ({ forCleaningDriversFiltered }) => {
 
   const clearHandler = async () => {
     /* forCleanDriversFiltered() */
-    forCleaningDriversFiltered('cleanState', 'clearButton')
+    forCleaningDriversFiltered("cleanState", "clearButton")
     setName("")
-    
   }
 
   return (
@@ -71,11 +80,29 @@ const SearchBar = ({ forCleaningDriversFiltered }) => {
         className={styles.searchBarInput}
       />
 
-      <button className={styles.searchButton} id="searchButton" onClick={() => onSearch(name)} disabled={handleDisabled()}>🔍</button>
+      <button
+        className={styles.searchButton}
+        id="searchButton"
+        onClick={() => onSearch(name)}
+        disabled={handleDisabled()}>
+        <BiSearchAlt2/>
+      </button>
 
-      <button className={styles.randomButton} id="randomButton" disabled={handleDisabled()} onClick={randomHandler}>🎲</button>
+      <button
+        className={styles.randomButton}
+        id="randomButton"
+        disabled={handleDisabled()}
+        onClick={randomHandler}>
+        <LiaDiceD6Solid/>
+      </button>
 
-      <button className={styles.clearButton} id="clearButton" disabled={handleDisabled()} onClick={clearHandler}>🧼</button>
+      <button
+        className={styles.clearButton}
+        id="clearButton"
+        disabled={handleDisabled()}
+        onClick={clearHandler}>
+        <LuEraser/>
+      </button>
     </div>
   )
 }
